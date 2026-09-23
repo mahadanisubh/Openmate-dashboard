@@ -1,0 +1,183 @@
+@import 'tailwindcss';
+
+/* The product theme. The marketing site and the widget shell share this sheet's values so a
+ * visitor sees one design system before and after install. Source: T-012, matching the Figma Make
+ * export; the widget's earlier navy palette was repointed onto these tokens. */
+@theme {
+  --font-sans: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  /* Ivory ground */
+  --color-paper: #f7f6f1;
+  --color-surface: #ffffff;
+  --color-ink: #141513;
+  --color-muted: #61645c;
+  --color-faint: #8b8d84;
+  --color-line: #e7e5db;
+  --color-line-strong: #d3d1c4;
+
+  /* Emerald lead, warm gold + soft clay support */
+  --color-accent: #0f7a5a;
+  --color-accent-hover: #0b5d44;
+  --color-accent-soft: #d9efe6;
+  --color-sun: #c9932e;
+  --color-sun-soft: #f6ead0;
+  --color-mint: #0d9488;
+  --color-mint-soft: #d1efec;
+  --color-berry: #bf5b3a;
+  --color-berry-soft: #f4e0d8;
+
+  /* Deep emerald-ink for dark panels */
+  --color-ink-panel: #10241d;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+*:hover,
+*:focus-within {
+  scrollbar-color: var(--color-line-strong) transparent;
+}
+
+:where(a, button, input, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* --- reveal: the motion port ----------------------------------------------
+ * Content is always in the DOM; the class only animates it in. If JS or the
+ * IntersectionObserver is unavailable the `is-visible` class is added by the
+ * server-rendered fallback or the element stays visible by default below. */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .animate-blob,
+  .animate-float,
+  .animate-marquee,
+  .animate-count,
+  .hover-lift,
+  .hover-scale {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* --- hover lifts (motion `whileHover` port) --- */
+.hover-lift {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-lift:hover {
+  transform: translateY(-8px);
+}
+.hover-lift-sm {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-lift-sm:hover {
+  transform: translateY(-4px);
+}
+.hover-scale {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-scale:hover {
+  transform: scale(1.04);
+}
+.hover-scale:active {
+  transform: scale(0.97);
+}
+
+/* --- decorative animation keyframes --- */
+@keyframes blob {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(24px, -32px) scale(1.12);
+  }
+  66% {
+    transform: translate(-20px, 18px) scale(0.94);
+  }
+}
+.animate-blob {
+  animation: blob 14s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+
+@keyframes count {
+  /* A soft pulse for the online dot; the count-up itself uses rAF. */
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.animate-count {
+  animation: count 2s ease-in-out infinite;
+}
