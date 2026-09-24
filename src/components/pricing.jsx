@@ -1,101 +1,153 @@
 import Reveal from './reveal.jsx';
+import ScrollWeight from './scroll-weight.jsx';
 
-const PLANS = [
-  {
-    name: 'Community',
-    price: 'Free',
-    note: 'For developers who want to self-host.',
-    features: ['Open source', 'MIT licensed', 'Self-hostable', 'Core OpenMate experience'],
-    cta: 'View on GitHub',
-  },
+// Three tiers, told in business terms. The technical rate limits (chunk caps, per-minute request
+// ceilings) are deliberately absent: a business owner choosing a plan needs to know who it is for
+// and what it unlocks, not the size of an index. Pro and Agency carry no price yet because they are
+// not built.
+const TIERS = [
   {
     name: 'Cloud Free',
     price: '$0',
-    note: 'For trying OpenMate on a real website.',
-    features: ['15 chunks', 'Up to 5 pages', '500 conversations / month', '30 requests / minute', 'OpenMate branding'],
+    unit: 'free to start, free to keep',
+    status: 'available',
+    audience: 'For one business putting its first assistant on its website.',
+    difference: 'Answers your customers on one site, free — up to 500 conversations a month.',
+    uses: [
+      'A café answering opening hours and menu questions',
+      'A clinic fielding insurance and booking questions after hours',
+      'A salon handling prices and appointment questions',
+    ],
     cta: 'Start free',
+    href: '/#cta',
   },
   {
     name: 'Pro',
-    price: '$19',
-    unit: '/month',
-    note: 'For businesses that want more room.',
-    features: [
-      '150 chunks',
-      'Unlimited conversations',
-      '120 requests / minute',
-      'Remove OpenMate branding',
-      'More customization',
+    price: 'Coming soon',
+    unit: 'in build',
+    status: 'coming',
+    audience: 'For growing businesses that want the assistant to look like theirs.',
+    difference: 'Your brand front and centre — OpenMate branding removed, with room to grow.',
+    uses: [
+      'A multi-location business keeping one consistent assistant',
+      'A shop whose assistant matches its website exactly',
+      'A busy site that needs headroom at peak hours',
     ],
-    cta: 'Choose Pro',
-    highlight: true,
+    cta: 'Join the waitlist',
+    href: '/#cta',
   },
   {
     name: 'Agency / Enterprise',
-    price: '$79',
-    unit: '/month',
-    note: 'For teams managing multiple businesses.',
-    features: ['Multi-tenant use', 'Agency workflows', 'White-label experience', 'Higher limits', 'Client-oriented deployment'],
+    price: 'Coming soon',
+    unit: 'in build',
+    status: 'coming',
+    audience: 'For teams running websites for many clients.',
+    difference: 'White-label and multi-tenant, built for the way agencies work.',
+    uses: [
+      'A web agency shipping an assistant with every site it builds',
+      'A marketing agency offering AI support as a service',
+      'A franchise group with knowledge for each location',
+    ],
     cta: 'Talk to us',
+    href: '/#cta',
   },
 ];
+
+function Tier({ tier }) {
+  const live = tier.status === 'available';
+  return (
+    <div
+      className={`flex h-full flex-col rounded-2xl border p-7 sm:p-8 ${
+        live ? 'border-accent/40 bg-surface' : 'border-line bg-surface/60'
+      }`}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <h2 className="font-display text-xl tracking-tight text-ink">{tier.name}</h2>
+        {live ? (
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-soft px-2.5 py-1 text-xs font-medium text-accent-hover">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent animate-count" />
+            Available
+          </span>
+        ) : (
+          <span className="rounded-full border border-line-strong px-2.5 py-1 text-xs font-medium text-muted">
+            Coming soon
+          </span>
+        )}
+      </div>
+
+      <p className={`mt-6 font-display text-3xl tracking-tight ${live ? 'text-ink' : 'text-muted'}`}>
+        {tier.price}
+      </p>
+      <p className="mt-1 text-sm text-faint">{tier.unit}</p>
+
+      <p className="mt-6 leading-relaxed text-muted">{tier.audience}</p>
+
+      <p className="mt-6 border-t border-line pt-6 font-medium leading-relaxed text-ink">{tier.difference}</p>
+
+      <p className="mt-7 text-sm font-medium text-ink">Where it fits</p>
+      <ul className="mt-3 flex flex-1 flex-col gap-2.5">
+        {tier.uses.map((u) => (
+          <li key={u} className="flex gap-2.5 text-sm leading-relaxed text-muted">
+            <svg
+              viewBox="0 0 20 20"
+              className="mt-0.5 h-4 w-4 shrink-0 text-accent"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              aria-hidden="true"
+            >
+              <path d="M4 10.5 8 14l8-8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            {u}
+          </li>
+        ))}
+      </ul>
+
+      <a
+        href={tier.href}
+        className={`mt-8 inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium transition-colors ${
+          live
+            ? 'bg-accent text-white hover:bg-accent-hover'
+            : 'border border-line-strong text-ink hover:border-ink'
+        }`}
+      >
+        {tier.cta}
+      </a>
+    </div>
+  );
+}
 
 export default function Pricing() {
   return (
     <section id="pricing" className="mx-auto max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
       <Reveal>
-        <p className="text-sm font-medium uppercase tracking-[0.14em] text-accent">Pricing</p>
-        <h2 className="mt-4 max-w-2xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
-          Clear quotas. No urgency games.
-        </h2>
+        <ScrollWeight from={400} to={600}>
+          <h1 className="max-w-3xl font-display text-4xl leading-[1.1] tracking-tight sm:text-5xl">
+            Simple pricing for every stage.
+          </h1>
+        </ScrollWeight>
       </Reveal>
 
-      <div className="mt-14 grid gap-6 lg:grid-cols-4">
-        {PLANS.map((p, i) => (
-          <Reveal key={p.name} delay={(i % 4) * 0.06}>
-            <div
-              className={`hover-lift flex h-full flex-col rounded-2xl border p-7 ${
-                p.highlight
-                  ? 'border-accent bg-ink-panel text-white shadow-[0_28px_60px_-30px_rgba(15,122,90,0.55)]'
-                  : 'border-line bg-surface text-ink hover:shadow-[0_24px_50px_-30px_rgba(31,26,20,0.4)]'
-              }`}
-            >
-              <h3 className="text-base font-semibold tracking-tight">{p.name}</h3>
-              <div className="mt-4 flex items-baseline gap-1">
-                <span className="text-3xl font-semibold tracking-tight">{p.price}</span>
-                {p.unit && <span className={p.highlight ? 'text-sm text-white/50' : 'text-sm text-faint'}>{p.unit}</span>}
-              </div>
-              <p className={`mt-3 text-sm leading-relaxed ${p.highlight ? 'text-white/60' : 'text-muted'}`}>{p.note}</p>
+      <Reveal delay={0.06}>
+        <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">
+          Start free with everything you need on one website. Move up when you want the assistant to be
+          yours alone.
+        </p>
+      </Reveal>
 
-              <ul className="mt-6 flex flex-col gap-2.5 text-sm">
-                {p.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5">
-                    <svg
-                      viewBox="0 0 20 20"
-                      className="mt-0.5 h-4 w-4 shrink-0 text-accent"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    >
-                      <path d="M4 10.5 8 14l8-8" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className={p.highlight ? 'text-white/80' : 'text-ink'}>{f}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <a
-                href="#cta"
-                className={`mt-8 inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium transition-colors ${
-                  p.highlight ? 'bg-accent text-white hover:bg-accent-hover' : 'border border-line-strong text-ink hover:border-ink'
-                }`}
-              >
-                {p.cta}
-              </a>
-            </div>
+      <div className="mt-16 grid gap-6 lg:grid-cols-3">
+        {TIERS.map((t, i) => (
+          <Reveal key={t.name} delay={(i % 3) * 0.06}>
+            <Tier tier={t} />
           </Reveal>
         ))}
       </div>
+
+      <Reveal delay={0.1}>
+        <p className="mt-10 max-w-2xl text-sm leading-relaxed text-faint">
+          Pro and Agency are in build. Start free today and we will reach out as soon as they open.
+        </p>
+      </Reveal>
     </section>
   );
 }

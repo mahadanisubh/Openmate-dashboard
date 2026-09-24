@@ -1,4 +1,5 @@
 import Reveal from './reveal.jsx';
+import ScrollWeight from './scroll-weight.jsx';
 
 export default function FinalCta() {
   return (
@@ -15,11 +16,13 @@ export default function FinalCta() {
 
       <div className="relative mx-auto max-w-4xl px-5 py-24 text-center text-white sm:px-8 lg:py-32">
         <Reveal>
-          <h2 className="text-3xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
-            Your customers already have questions.
-            <br />
-            <span className="text-accent">Give them somewhere to ask.</span>
-          </h2>
+          <ScrollWeight from={400} to={700}>
+            <h2 className="font-display text-3xl leading-[1.1] tracking-tight sm:text-5xl">
+              Your customers already have questions.
+              <br />
+              <span className="text-accent">Give them somewhere to ask.</span>
+            </h2>
+          </ScrollWeight>
         </Reveal>
         <Reveal delay={0.08}>
           <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-white/90">

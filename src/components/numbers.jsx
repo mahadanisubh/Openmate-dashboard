@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Reveal from './reveal.jsx';
+import ScrollWeight from './scroll-weight.jsx';
 
 const STATS = [
   { prefix: '', value: 500, decimals: 0, suffix: '', label: 'businesses', color: 'text-accent' },
@@ -84,24 +85,22 @@ export default function Numbers() {
   return (
     <section className="mx-auto max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
       <Reveal>
-        <p className="text-sm font-medium uppercase tracking-[0.14em] text-accent">The numbers</p>
-        <h2 className="mt-4 max-w-2xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
-          Built to keep infrastructure costs practical
-        </h2>
+        <ScrollWeight from={400} to={600}>
+          <h2 className="max-w-2xl font-display text-3xl leading-[1.12] tracking-tight sm:text-4xl">
+            Built to keep infrastructure costs practical
+          </h2>
+        </ScrollWeight>
         <p className="mt-4 max-w-xl leading-relaxed text-muted">
           We would rather show you the number than tell you we&rsquo;re &ldquo;ultra-efficient.&rdquo;
         </p>
       </Reveal>
 
       <Reveal delay={0.08}>
-        <dl className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <dl className="mt-12 grid grid-cols-2 gap-x-8 border-t border-line pt-8 sm:grid-cols-3 lg:grid-cols-5">
           {STATS.map((s) => (
-            <div
-              key={s.label}
-              className="rounded-2xl border border-line bg-surface p-7 transition-shadow hover:shadow-[0_20px_44px_-26px_rgba(31,26,20,0.35)]"
-            >
+            <div key={s.label} className="border-b border-line py-6">
               <dt className="text-sm text-muted">{s.label}</dt>
-              <dd className="mt-2 text-3xl font-semibold tracking-tight">
+              <dd className="mt-1.5 font-display text-3xl font-medium tracking-tight">
                 <CountUp prefix={s.prefix} value={s.value} decimals={s.decimals} suffix={s.suffix} className={s.color} />
               </dd>
             </div>

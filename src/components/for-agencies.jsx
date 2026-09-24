@@ -1,4 +1,5 @@
 import Reveal from './reveal.jsx';
+import ScrollWeight from './scroll-weight.jsx';
 
 const CLIENTS = [
   { name: 'Client A', kind: 'Clinic assistant', accent: 'Answers hours, insurance & booking' },
@@ -12,10 +13,11 @@ export default function ForAgencies() {
       <div className="mx-auto grid max-w-6xl gap-14 px-5 py-20 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20 lg:py-28">
         <div>
           <Reveal>
-            <p className="text-sm font-medium uppercase tracking-[0.14em] text-accent">For agencies</p>
-            <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
-              Build it once. Offer it to every client.
-            </h2>
+            <ScrollWeight from={400} to={600}>
+              <h2 className="font-display text-3xl leading-[1.12] tracking-tight sm:text-4xl">
+                Build it once. Offer it to every client.
+              </h2>
+            </ScrollWeight>
           </Reveal>
           <Reveal delay={0.06}>
             <p className="mt-5 max-w-md leading-relaxed text-muted">

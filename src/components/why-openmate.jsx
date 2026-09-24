@@ -1,4 +1,5 @@
 import Reveal from './reveal.jsx';
+import ScrollWeight from './scroll-weight.jsx';
 
 const REASONS = [
   { title: 'Simple to launch', body: 'One script puts the assistant on your website. No complicated support platform required.', icon: 'bolt', color: 'accent' },
@@ -30,17 +31,18 @@ export default function WhyOpenMate() {
     <section className="border-y border-line bg-surface">
       <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
         <Reveal>
-          <p className="text-sm font-medium uppercase tracking-[0.14em] text-accent">Why OpenMate</p>
-          <h2 className="mt-4 max-w-2xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
-            Business-focused from the first script tag
-          </h2>
+          <ScrollWeight from={400} to={600}>
+            <h2 className="max-w-2xl font-display text-3xl leading-[1.12] tracking-tight sm:text-4xl">
+              Business-focused from the first script tag
+            </h2>
+          </ScrollWeight>
         </Reveal>
 
-        <div className="mt-14 grid gap-px overflow-hidden rounded-2xl bg-line sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-16 grid gap-x-16 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
           {REASONS.map((r, i) => (
             <Reveal key={r.title} delay={(i % 3) * 0.06}>
-              <div className="hover-lift-sm flex h-full flex-col gap-4 bg-surface p-8 transition-colors hover:bg-paper">
-                <span className={`flex h-11 w-11 items-center justify-center rounded-xl ${CHIP[r.color]}`}>
+              <div className="flex gap-5 border-t border-line pt-6">
+                <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${CHIP[r.color]}`}>
                   <svg
                     viewBox="0 0 24 24"
                     className="h-5 w-5"
@@ -53,8 +55,10 @@ export default function WhyOpenMate() {
                     <path d={PATHS[r.icon]} />
                   </svg>
                 </span>
-                <h3 className="text-lg font-semibold tracking-tight">{r.title}</h3>
-                <p className="text-sm leading-relaxed text-muted">{r.body}</p>
+                <div>
+                  <h3 className="font-display text-lg font-medium tracking-tight">{r.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">{r.body}</p>
+                </div>
               </div>
             </Reveal>
           ))}

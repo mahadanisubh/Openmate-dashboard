@@ -1,4 +1,5 @@
 import Reveal from './reveal.jsx';
+import ScrollWeight from './scroll-weight.jsx';
 
 const CASES = [
   {
@@ -24,18 +25,18 @@ export default function UseCases() {
   return (
     <section id="usecases" className="mx-auto max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
       <Reveal>
-        <p className="text-sm font-medium uppercase tracking-[0.14em] text-accent">What it&rsquo;s for</p>
-        <h2 className="mt-4 max-w-2xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
-          What businesses actually use OpenMate for
-        </h2>
+        <ScrollWeight from={400} to={600}>
+          <h2 className="max-w-2xl font-display text-3xl leading-[1.12] tracking-tight sm:text-4xl">
+            What businesses actually use OpenMate for
+          </h2>
+        </ScrollWeight>
       </Reveal>
 
       <div className="mt-14 grid gap-x-12 gap-y-12 sm:grid-cols-2">
         {CASES.map((c, i) => (
           <Reveal key={c.title} delay={(i % 2) * 0.08}>
             <div className="border-t border-line pt-6">
-              <span className="text-sm font-medium text-faint">0{i + 1}</span>
-              <h3 className="mt-2 text-xl font-semibold tracking-tight">{c.title}</h3>
+              <h3 className="font-display text-xl font-medium tracking-tight">{c.title}</h3>
               <p className="mt-3 max-w-md leading-relaxed text-muted">{c.body}</p>
               {c.items && (
                 <ul className="mt-4 flex flex-wrap gap-2">

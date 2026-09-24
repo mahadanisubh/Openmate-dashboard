@@ -1,4 +1,6 @@
 import Reveal from './reveal.jsx';
+import ScrollWeight from './scroll-weight.jsx';
+import VectorField from './vector-field.jsx';
 
 const CLAIMS = [
   {
@@ -11,39 +13,16 @@ const CLAIMS = [
   },
 ];
 
-function FlowNode({ label, muted, accent }) {
-  return (
-    <div
-      className={`rounded-xl border px-4 py-3 text-center text-sm font-medium ${
-        accent
-          ? 'border-accent/40 bg-accent-soft text-accent-hover'
-          : muted
-            ? 'border-white/10 bg-white/5 text-white/55'
-            : 'border-white/15 bg-white/8 text-white'
-      }`}
-    >
-      {label}
-    </div>
-  );
-}
-
-function Arrow({ label = '↓' }) {
-  return (
-    <div className="flex items-center justify-center py-1 text-white/30" aria-hidden="true">
-      {label}
-    </div>
-  );
-}
-
 export default function ProofPrivacy() {
   return (
     <section id="proof" className="border-t border-line bg-ink-panel text-white">
       <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
         <Reveal>
-          <p className="text-sm font-medium uppercase tracking-[0.14em] text-accent">Proof, not hype</p>
-          <h2 className="mt-4 max-w-2xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
-            Radically honest about how your data is handled
-          </h2>
+          <ScrollWeight from={400} to={600}>
+            <h2 className="max-w-2xl font-display text-3xl leading-[1.12] tracking-tight sm:text-4xl">
+              Radically honest about how your data is handled
+            </h2>
+          </ScrollWeight>
         </Reveal>
 
         <div className="mt-14 grid gap-10 lg:grid-cols-[1fr_0.85fr] lg:gap-16">
@@ -69,22 +48,42 @@ export default function ProofPrivacy() {
           </div>
 
           <Reveal delay={0.1}>
-            <div className="rounded-2xl border border-white/12 bg-white/[0.03] p-8">
-              <p className="text-sm font-medium uppercase tracking-[0.14em] text-white/45">Blind Vectors</p>
-              <div className="mt-6">
-                <FlowNode label="Your document" />
-                <Arrow />
-                <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
-                  <FlowNode label="Encrypted document" muted />
-                  <span className="text-lg text-accent" aria-hidden="true">
-                    ∗
-                  </span>
-                  <FlowNode label="Searchable vector" />
-                </div>
-                <Arrow />
-                <FlowNode label="Relevant result" accent />
+            <div className="relative overflow-hidden rounded-2xl border border-white/12 bg-white/[0.03] p-8">
+              <div className="flex items-baseline justify-between gap-4">
+                <p className="font-display text-lg font-medium tracking-tight">Blind Vectors</p>
+                <span className="text-xs text-white/40">live</span>
               </div>
-              <p className="mt-6 text-sm leading-relaxed text-white/60">
+
+              {/* The field is the diagram: encrypted documents as idle dots, the query retrieving
+               * its neighbours. The flow below names what is happening. */}
+              <div className="relative mt-6 h-56">
+                <VectorField
+                  className="absolute inset-0 h-full w-full"
+                  density={42}
+                  neighbors={5}
+                  dotColor="var(--color-mint)"
+                  accentColor="var(--color-accent)"
+                  idleColor="#8b8d84"
+                />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#10241d] to-transparent" aria-hidden="true" />
+              </div>
+
+              <ol className="mt-2 grid gap-2 text-sm">
+                <li className="flex items-center gap-3 text-white/70">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-[10px] font-medium text-white/55">1</span>
+                  Your document is encrypted and embedded
+                </li>
+                <li className="flex items-center gap-3 text-white/70">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-[10px] font-medium text-white/55">2</span>
+                  Vectors stay searchable while the text stays encrypted
+                </li>
+                <li className="flex items-center gap-3 text-white/70">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-accent/40 bg-accent-soft text-[10px] font-medium text-accent-hover">3</span>
+                  The query retrieves its nearest neighbours
+                </li>
+              </ol>
+
+              <p className="mt-6 leading-relaxed text-white/60">
                 OpenMate can search the knowledge base using vectors while stored document text remains encrypted.
               </p>
             </div>

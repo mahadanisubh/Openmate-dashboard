@@ -1,22 +1,46 @@
 import Reveal from './reveal.jsx';
+import ScrollWeight from './scroll-weight.jsx';
 
-const BEFORE = ['Has a question', 'Searches website', "Can't find answer", 'Sends a message', 'Waits'];
-const AFTER = ['Has a question', 'Asks OpenMate', 'Gets an answer', 'Continues'];
+// The old path dead-ends and waits; the new one resolves. The two lists are the same shape on
+// purpose so the difference reads as friction removed, not as more steps added.
+const BEFORE = [
+  { label: 'Has a question', note: 'the visitor arrives with intent' },
+  { label: 'Searches your website', note: 'hunting pages for an answer' },
+  { label: 'Comes up empty', note: 'the answer was never written down' },
+  { label: 'Sends a message', note: 'now waiting on a reply' },
+  { label: 'Waits', note: 'possibly until tomorrow' },
+];
+const AFTER = [
+  { label: 'Has a question', note: 'the same intent, unchanged' },
+  { label: 'Asks OpenMate', note: 'right where they already are' },
+  { label: 'Gets an answer', note: 'from your own knowledge base' },
+  { label: 'Continues', note: 'booked, decided, on their way' },
+];
 
 function Flow({ steps, tone }) {
   const accent = tone === 'after';
   return (
-    <ol className="flex flex-col gap-2">
+    <ol className="relative flex flex-col">
+      {/* One rail joins the markers, so the list reads as a single path rather than a list. */}
+      <span
+        className={`absolute bottom-[20px] left-3 top-[20px] w-px ${accent ? 'bg-accent/30' : 'bg-line-strong'}`}
+        aria-hidden="true"
+      />
       {steps.map((s, i) => (
-        <li key={s} className="flex items-center gap-3">
+        <li key={s.label} className="relative flex items-start gap-4 py-2.5">
           <span
-            className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-medium ${
-              accent ? 'bg-accent text-white' : 'bg-ink/8 text-muted'
+            className={`relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-medium ${
+              accent ? 'bg-accent text-white' : 'bg-surface text-faint ring-1 ring-line-strong'
             }`}
           >
             {i + 1}
           </span>
-          <span className={accent ? 'font-medium text-ink' : 'text-muted'}>{s}</span>
+          <span className="pt-0.5">
+            <span className={`block ${accent ? 'font-medium text-ink' : 'text-muted'}`}>{s.label}</span>
+            <span className={`mt-0.5 block text-sm ${accent ? 'text-accent-hover/80' : 'text-faint'}`}>
+              {s.note}
+            </span>
+          </span>
         </li>
       ))}
     </ol>
@@ -27,25 +51,33 @@ export default function BeforeAfter() {
   return (
     <section className="mx-auto max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
       <Reveal>
-        <p className="text-sm font-medium uppercase tracking-[0.14em] text-accent">The difference</p>
-        <h2 className="mt-4 max-w-2xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
-          How it helps your business
-        </h2>
+        <ScrollWeight from={400} to={600}>
+          <h2 className="max-w-2xl font-display text-3xl leading-[1.12] tracking-tight sm:text-4xl">
+            How it helps your business
+          </h2>
+        </ScrollWeight>
       </Reveal>
 
-      <div className="mt-14 grid gap-6 md:grid-cols-2">
+      <div className="mt-14 grid gap-6 md:grid-cols-2 md:gap-8">
         <Reveal>
-          <div className="h-full rounded-2xl border border-line bg-surface p-8">
-            <p className="text-sm font-medium uppercase tracking-wide text-faint">Before OpenMate</p>
-            <div className="mt-6">
+          <div className="flex h-full flex-col rounded-2xl border border-line bg-surface p-7 sm:p-8">
+            <div className="flex items-baseline justify-between gap-4">
+              <p className="font-display text-lg tracking-tight text-muted">Before OpenMate</p>
+              <span className="text-xs text-faint">{BEFORE.length} steps</span>
+            </div>
+            <div className="mt-7 flex-1">
               <Flow steps={BEFORE} tone="before" />
             </div>
           </div>
         </Reveal>
+
         <Reveal delay={0.08}>
-          <div className="h-full rounded-2xl border border-accent/30 bg-accent-soft/40 p-8">
-            <p className="text-sm font-medium uppercase tracking-wide text-accent">With OpenMate</p>
-            <div className="mt-6">
+          <div className="flex h-full flex-col rounded-2xl border border-accent/30 bg-accent-soft/50 p-7 sm:p-8">
+            <div className="flex items-baseline justify-between gap-4">
+              <p className="font-display text-lg tracking-tight text-accent-hover">With OpenMate</p>
+              <span className="text-xs text-accent">{AFTER.length} steps</span>
+            </div>
+            <div className="mt-7 flex-1">
               <Flow steps={AFTER} tone="after" />
             </div>
           </div>
