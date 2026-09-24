@@ -26,6 +26,8 @@ const components = [
   'site-footer',
   'reveal',
   'chat-widget',
+  'scroll-weight',
+  'vector-field',
 ];
 
 // The brief's hard rule (02 §6 privacy claim guardrails): these phrases are defensible in no
@@ -67,12 +69,30 @@ test('the homepage states the limitation the brief refuses to hide', () => {
   );
 });
 
-test('pricing shows the real quotas rather than adjectives', () => {
+test('pricing sells in business terms, not technical quotas', () => {
   const pricing = read('src/components/pricing.jsx');
-  for (const quota of ['15 chunks', '500 conversations / month', '30 requests / minute', '150 chunks', '$19', '$79']) {
-    assert.match(pricing, new RegExp(quota.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), `pricing must state ${quota}`);
-  }
+  // T-017 dropped the chunk caps and requests/minute from the customer-facing tiers: a business
+  // choosing a plan needs to know who it is for and what it unlocks, not the size of an index.
+  assert.doesNotMatch(pricing, /chunks/i, 'pricing must not surface chunk caps');
+  assert.doesNotMatch(pricing, /requests?\s*\/\s*minute|\brpm\b/i, 'pricing must not surface requests/minute');
+  assert.doesNotMatch(pricing, /Community/, 'the Community tier was removed');
   assert.doesNotMatch(pricing, /Most Popular/i, 'the brief forbids urgency badges');
+  // The three live tiers, each stating its audience and how it differs.
+  for (const tier of ['Cloud Free', 'Pro', 'Agency / Enterprise']) {
+    assert.match(pricing, new RegExp(tier.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), `pricing must list ${tier}`);
+  }
+  assert.match(pricing, /Coming soon/, 'Pro and Agency are marked coming soon');
+  assert.match(pricing, /Where it fits/, 'each tier names its use cases');
+  // Pro and Agency show no price while they are unbuilt.
+  assert.doesNotMatch(pricing, /\$19|\$79/, 'unbuilt tiers must not carry a price');
+});
+
+test('pricing has its own route and is off the homepage', () => {
+  const pricingPage = read('app/pricing/page.js');
+  assert.match(pricingPage, /from '\.\.\/\.\.\/src\/components\/pricing\.jsx'/, 'the route renders the pricing section');
+  assert.match(pricingPage, /export const metadata/, 'the route carries its own metadata');
+  const homepage = read('app/page.js');
+  assert.doesNotMatch(homepage, /<Pricing\s*\/>/, 'pricing is no longer composed into the homepage');
 });
 
 test('the real install snippet appears on the page', () => {
@@ -90,13 +110,25 @@ test('every component is JavaScript, never TypeScript', () => {
   }
 });
 
-test('no component imports the motion dependency', () => {
-  // The port replaced motion/react with CSS. This keeps a future paste from re-adding it.
+test('scroll choreography imports motion, and stays off the server-rendered path', () => {
+  // ADR-022 declined an animation runtime; T-014 reverses that for the scroll weight-shift and the
+  // vector field. The rule that survives: only the client islands may import it, so the page's
+  // content never waits on JS. Server components importing motion would break the no-JS path.
+  // vector-field is canvas-only (no motion import); hero owns motion for the headline weight-shift.
+  const MOTION_ISLANDS = ['hero', 'scroll-weight'];
+  for (const name of MOTION_ISLANDS) {
+    assert.match(
+      read(`src/components/${name}.jsx`),
+      /from ['"]motion\/react['"]/,
+      `${name}.jsx is the client island that owns the motion import`,
+    );
+  }
   for (const name of components) {
+    if (MOTION_ISLANDS.includes(name)) continue;
     assert.doesNotMatch(
       read(`src/components/${name}.jsx`),
       /from ['"]motion\/react['"]/,
-      `${name}.jsx must not import motion — it was ported to CSS`,
+      `${name}.jsx must not import motion directly — it reaches the choreography through the islands`,
     );
   }
 });
@@ -135,6 +167,10 @@ test('the final CTA uses tokens, not a hardcoded AI-style gradient', () => {
 // The brief requires the page to be usable with JavaScript disabled through pricing. The sections
 // are server components, so the build prerenders them; this asserts the build output carries the
 // content rather than a client-only shell. Skipped when the build has not been run.
+//
+// T-016 parked three sections for the v1 launch (proof-privacy, numbers, for-agencies) pending the
+// /privacy and /terms routes. Their strings are asserted from the component source below, not the
+// build, until they are re-enabled in app/page.js — re-enable them here at the same time.
 test('the prerendered homepage carries its content without JavaScript', () => {
   let html;
   try {
@@ -143,16 +179,37 @@ test('the prerendered homepage carries its content without JavaScript', () => {
     return; // no build output in this environment; the source tests above still run
   }
   for (const content of [
-    'Clear quotas',
-    'Blind Vectors',
-    'The limitation we won', // apostrophe is HTML-escaped in output, so match up to it
-    'decrypted context is sent to the LLM provider configured for your assistant',
-    'vector storage',
-    'Agency / Enterprise',
+    'Turn your business knowledge',
+    'How it helps your business',
+    'What businesses actually use OpenMate for',
   ]) {
     assert.ok(html.includes(content), `prerendered HTML must contain "${content}"`);
   }
   for (const forbidden of ['irreversible', 'military-grade', 'unbreakable']) {
     assert.ok(!html.includes(forbidden), `prerendered HTML must not claim "${forbidden}"`);
   }
+});
+
+// Parked sections keep their copy and their disclosure in source, so re-enabling them is a
+// one-line change in app/page.js rather than a rewrite. This is what holds the PRD's privacy
+// disclosure (01-PRD line 38) while the sections are out of the v1 render.
+test('the parked sections retain their disclosure and claims for re-enablement', () => {
+  const proof = read('src/components/proof-privacy.jsx');
+  assert.match(
+    proof,
+    /decrypted context is sent to the LLM provider configured for/,
+    'the inference-hop disclosure must survive parking (PRD §4 privacy disclosure)',
+  );
+  assert.match(
+    proof,
+    /Encryption protects stored data; it does not encrypt that inference request/,
+    'the disclosure must name what encryption does not cover',
+  );
+  assert.match(proof, /Blind Vectors/, 'the Blind Vectors explainer is retained for re-enablement');
+
+  const numbers = read('src/components/numbers.jsx');
+  assert.match(numbers, /vector storage/, 'the numbers section is retained for re-enablement');
+
+  const agencies = read('src/components/for-agencies.jsx');
+  assert.match(agencies, /Offer it to every client/, 'the agencies section is retained for re-enablement');
 });

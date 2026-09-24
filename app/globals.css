@@ -1,10 +1,23 @@
 @import 'tailwindcss';
 
+/* Self-hosted NOHEMI (RajeshRajput; free for commercial use per the designer's product page), a
+ * single variable TTF carrying all nine weights. Display voice for headings and numerals; the body
+ * keeps the pinned system stack below so the marketing site and the widget shell still share one
+ * text voice. T-013, replacing Newsreader at the human's request. */
+@font-face {
+  font-family: 'Nohemi';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Nohemi-VF-BF6438cc58ad63d.ttf') format('truetype-variations');
+}
+
 /* The product theme. The marketing site and the widget shell share this sheet's values so a
  * visitor sees one design system before and after install. Source: T-012, matching the Figma Make
  * export; the widget's earlier navy palette was repointed onto these tokens. */
 @theme {
   --font-sans: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Nohemi', -apple-system, 'Segoe UI', Roboto, sans-serif;
 
   /* Ivory ground */
   --color-paper: #f7f6f1;
@@ -95,6 +108,9 @@ body {
   .animate-float,
   .animate-marquee,
   .animate-count,
+  .animate-typing,
+  .animate-hero-drift,
+  .animate-hero-sweep,
   .hover-lift,
   .hover-scale {
     animation: none !important;
@@ -180,4 +196,70 @@ body {
 }
 .animate-count {
   animation: count 2s ease-in-out infinite;
+}
+
+/* Typing indicator: an exponential ease-out opacity pulse, not an elastic bounce.
+ * Real indicators ease; bounce reads as a toy. (Detector: bounce-easing.) */
+@keyframes typing {
+  0% {
+    opacity: 0.2;
+    transform: scale(0.85);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.2;
+    transform: scale(0.85);
+  }
+}
+.animate-typing {
+  animation: typing 1.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* --- hero banner: cinematic image motion ---------------------------------
+ * The banner breathes rather than sitting frozen. A slow Ken Burns drift over 32s, and a light
+ * sweep that crosses every 9s. Both are transform/opacity-free of layout work and cost no JS.
+ * The sweep needs a very wide bright band masked to the sweep's own gradient, so it reads as
+ * light passing over the image, not a grey box sliding across it. */
+@keyframes hero-drift {
+  0% {
+    transform: scale(1.06) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.13) translate3d(-1.4%, -1.2%, 0);
+  }
+  100% {
+    transform: scale(1.06) translate3d(0, 0, 0);
+  }
+}
+.animate-hero-drift {
+  animation: hero-drift 32s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes hero-sweep {
+  0% {
+    transform: translateX(-120%) skewX(-14deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.5;
+  }
+  38% {
+    opacity: 0.5;
+  }
+  55% {
+    transform: translateX(120%) skewX(-14deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(120%) skewX(-14deg);
+    opacity: 0;
+  }
+}
+.animate-hero-sweep {
+  animation: hero-sweep 9s ease-in-out infinite;
+  will-change: transform, opacity;
 }
