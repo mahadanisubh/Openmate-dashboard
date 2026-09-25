@@ -178,12 +178,15 @@ test('the prerendered homepage carries its content without JavaScript', () => {
   } catch {
     return; // no build output in this environment; the source tests above still run
   }
+  // Compare on rendered text, not raw markup: emphasis spans (e.g. around "OpenMate") split a
+  // sentence across elements, but the sentence must still be present for a no-JS reader.
+  const text = html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ');
   for (const content of [
     'Turn your business knowledge',
     'How it helps your business',
     'What businesses actually use OpenMate for',
   ]) {
-    assert.ok(html.includes(content), `prerendered HTML must contain "${content}"`);
+    assert.ok(text.includes(content), `prerendered HTML must contain "${content}"`);
   }
   for (const forbidden of ['irreversible', 'military-grade', 'unbreakable']) {
     assert.ok(!html.includes(forbidden), `prerendered HTML must not claim "${forbidden}"`);

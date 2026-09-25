@@ -31,18 +31,24 @@ export default function WhyOpenMate() {
     <section className="border-y border-line bg-surface">
       <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
         <Reveal>
-          <ScrollWeight from={400} to={600}>
-            <h2 className="max-w-2xl font-display text-3xl leading-[1.12] tracking-tight sm:text-4xl">
-              Business-focused from the first script tag
+          <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-mint">
+            <span className="h-px w-8 bg-gradient-to-r from-mint to-accent" />
+            Why OpenMate
+          </span>
+        </Reveal>
+        <Reveal delay={0.04}>
+          <ScrollWeight from={500} to={800}>
+            <h2 className="mt-4 max-w-2xl font-display text-4xl leading-[1.08] tracking-tight sm:text-5xl">
+              Business-focused from the <span className="text-mint">first script tag</span>
             </h2>
           </ScrollWeight>
         </Reveal>
 
-        <div className="mt-16 grid gap-x-16 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {REASONS.map((r, i) => (
             <Reveal key={r.title} delay={(i % 3) * 0.06}>
-              <div className="flex gap-5 border-t border-line pt-6">
-                <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${CHIP[r.color]}`}>
+              <div className="group h-full rounded-2xl border border-line bg-paper/60 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-line-strong hover:bg-surface hover:shadow-[0_22px_50px_-32px_rgba(31,26,20,0.5)]">
+                <span className={`flex h-11 w-11 items-center justify-center rounded-xl ${CHIP[r.color]} transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
                   <svg
                     viewBox="0 0 24 24"
                     className="h-5 w-5"
@@ -55,10 +61,8 @@ export default function WhyOpenMate() {
                     <path d={PATHS[r.icon]} />
                   </svg>
                 </span>
-                <div>
-                  <h3 className="font-display text-lg font-medium tracking-tight">{r.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">{r.body}</p>
-                </div>
+                <h3 className="mt-5 font-display text-lg font-semibold tracking-tight">{r.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{r.body}</p>
               </div>
             </Reveal>
           ))}

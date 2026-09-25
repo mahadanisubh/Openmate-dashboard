@@ -16,34 +16,42 @@ export default function FinalCta() {
 
       <div className="relative mx-auto max-w-4xl px-5 py-24 text-center text-white sm:px-8 lg:py-32">
         <Reveal>
-          <ScrollWeight from={400} to={700}>
-            <h2 className="font-display text-3xl leading-[1.1] tracking-tight sm:text-5xl">
+          <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-white/80 backdrop-blur-sm">
+            <span className="h-1.5 w-1.5 rounded-full bg-mint animate-pulse" />
+            Get started
+          </span>
+        </Reveal>
+        <Reveal delay={0.04}>
+          <ScrollWeight from={500} to={900}>
+            <h2 className="font-display text-4xl leading-[1.06] tracking-tight sm:text-6xl">
               Your customers already have questions.
               <br />
-              <span className="text-accent">Give them somewhere to ask.</span>
+              <span className="bg-gradient-to-r from-accent-soft via-mint to-accent-soft bg-clip-text text-transparent">
+                Give them somewhere to ask.
+              </span>
             </h2>
           </ScrollWeight>
         </Reveal>
         <Reveal delay={0.08}>
-          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-white/90">
-            OpenMate helps your website answer customers, support visitors and represent your business — even when
+          <p className="mx-auto mt-7 max-w-xl text-lg leading-relaxed text-white/90 sm:text-xl">
+            OpenMate helps your website answer customers, support visitors and represent your business &mdash; even when
             you&rsquo;re away.
           </p>
         </Reveal>
         <Reveal delay={0.14}>
-          <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+          <div className="mt-11 flex flex-col justify-center gap-3 sm:flex-row">
             <a
               href="#top"
-              className="hover-scale inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-white shadow-lg"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent to-mint px-8 py-4 text-base font-semibold text-white shadow-[0_18px_44px_-14px_rgba(15,122,90,1)] ring-1 ring-white/20 transition-transform duration-200 hover:-translate-y-0.5"
             >
               Start with OpenMate
-              <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <svg viewBox="0 0 20 20" className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="1.9">
                 <path d="M4 10h11M11 5l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </a>
             <a
               href="#top"
-              className="inline-flex items-center justify-center rounded-full border border-white/60 px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-white/15"
+              className="inline-flex items-center justify-center rounded-full border border-white/40 bg-white/5 px-8 py-4 text-base font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-white/70 hover:bg-white/15"
             >
               See a live example
             </a>

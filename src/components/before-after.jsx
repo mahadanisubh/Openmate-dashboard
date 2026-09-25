@@ -51,8 +51,14 @@ export default function BeforeAfter() {
   return (
     <section className="mx-auto max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
       <Reveal>
-        <ScrollWeight from={400} to={600}>
-          <h2 className="max-w-2xl font-display text-3xl leading-[1.12] tracking-tight sm:text-4xl">
+        <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-berry">
+          <span className="h-px w-8 bg-gradient-to-r from-berry to-sun" />
+          The difference
+        </span>
+      </Reveal>
+      <Reveal delay={0.04}>
+        <ScrollWeight from={500} to={800}>
+          <h2 className="mt-4 max-w-2xl font-display text-4xl leading-[1.08] tracking-tight sm:text-5xl">
             How it helps your business
           </h2>
         </ScrollWeight>
@@ -60,10 +66,12 @@ export default function BeforeAfter() {
 
       <div className="mt-14 grid gap-6 md:grid-cols-2 md:gap-8">
         <Reveal>
-          <div className="flex h-full flex-col rounded-2xl border border-line bg-surface p-7 sm:p-8">
+          <div className="flex h-full flex-col rounded-2xl border border-line bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_50px_-32px_rgba(31,26,20,0.5)] sm:p-8">
             <div className="flex items-baseline justify-between gap-4">
-              <p className="font-display text-lg tracking-tight text-muted">Before OpenMate</p>
-              <span className="text-xs text-faint">{BEFORE.length} steps</span>
+              <p className="font-display text-lg font-semibold tracking-tight text-muted">Before OpenMate</p>
+              <span className="rounded-full bg-paper px-3 py-1 text-xs font-medium text-faint ring-1 ring-line">
+                {BEFORE.length} steps
+              </span>
             </div>
             <div className="mt-7 flex-1">
               <Flow steps={BEFORE} tone="before" />
@@ -72,10 +80,12 @@ export default function BeforeAfter() {
         </Reveal>
 
         <Reveal delay={0.08}>
-          <div className="flex h-full flex-col rounded-2xl border border-accent/30 bg-accent-soft/50 p-7 sm:p-8">
+          <div className="flex h-full flex-col rounded-2xl border border-accent/30 bg-gradient-to-br from-accent-soft/70 to-mint-soft/40 p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_56px_-30px_rgba(15,122,90,0.6)] sm:p-8">
             <div className="flex items-baseline justify-between gap-4">
-              <p className="font-display text-lg tracking-tight text-accent-hover">With OpenMate</p>
-              <span className="text-xs text-accent">{AFTER.length} steps</span>
+              <p className="font-display text-lg font-semibold tracking-tight text-accent-hover">With OpenMate</p>
+              <span className="rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white">
+                {AFTER.length} steps
+              </span>
             </div>
             <div className="mt-7 flex-1">
               <Flow steps={AFTER} tone="after" />
