@@ -36,8 +36,14 @@ export default async function SignInPage({ searchParams }) {
           />
         </label>
         <ErrorNotice searchParams={params} />
-        <SubmitButton>Sign in</SubmitButton>
+        <SubmitButton pendingLabel="Signing in…">Sign in</SubmitButton>
       </form>
+      <p className="mt-6 text-sm text-muted">
+        No key yet?{' '}
+        <Link href="/dashboard/create-assistant" className="text-accent hover:underline">
+          Create an assistant
+        </Link>
+      </p>
     </main>
   );
 }

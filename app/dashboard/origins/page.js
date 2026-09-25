@@ -34,7 +34,7 @@ export default async function OriginsPage({ searchParams }) {
                 />
                 <span className="text-xs text-faint">One origin per line, scheme://host[:port], with no path or wildcard. At most 20.</span>
               </label>
-              <SubmitButton>Save origins</SubmitButton>
+              <SubmitButton pendingLabel="Saving…">Save origins</SubmitButton>
             </form>
           </div>
         );

@@ -4,7 +4,10 @@ const COOKIE_NAME = 'openmate_tenant_api_key';
 
 export function middleware(request) {
   const { pathname } = request.nextUrl;
-  if (pathname === '/dashboard/sign-in') return NextResponse.next();
+  // The sign-in and Create Assistant pages are the ways in; neither needs a session.
+  if (pathname === '/dashboard/sign-in' || pathname === '/dashboard/create-assistant') {
+    return NextResponse.next();
+  }
 
   const apiKey = request.cookies.get(COOKIE_NAME)?.value;
   if (!apiKey) {

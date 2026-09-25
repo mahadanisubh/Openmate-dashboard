@@ -38,7 +38,7 @@ export default async function DocumentsPage({ searchParams }) {
                 />
               </label>
               <span className="text-xs text-faint">The upload limit is 10 MB and, on the free tier, five pages per PDF.</span>
-              <SubmitButton>Upload document</SubmitButton>
+              <SubmitButton pendingLabel="Uploading and embedding…">Upload document</SubmitButton>
             </form>
             {res.ok && res.data ? (
               <DocumentList documents={res.data.documents} />

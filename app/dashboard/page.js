@@ -43,16 +43,10 @@ export default async function DashboardPage({ searchParams }) {
                 {usage.ok && usage.data ? (
                   <div className="mt-4 flex flex-col gap-5">
                     <QuotaBar
-                      used={usage.data.chunks.used}
-                      cap={usage.data.chunks.cap}
-                      label="Document chunks"
-                      note="The free tier stores 15 chunks, roughly a five-page document."
-                    />
-                    <QuotaBar
                       used={usage.data.conversations.used}
                       cap={usage.data.conversations.cap}
                       label="Monthly chat turns"
-                      note="The PRD calls these conversations; each accepted chat turn counts as one."
+                      note="Each accepted chat turn counts as one."
                     />
                   </div>
                 ) : (

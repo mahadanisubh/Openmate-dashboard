@@ -1,16 +1,21 @@
 import { redirect } from 'next/navigation';
 
-import DashboardNav from './nav.jsx';
+import Sidebar from './sidebar.jsx';
 import { getTenant } from '../../lib/session.js';
 
+// The sidebar is fixed on every breakpoint; the main column carries a matching left padding so the
+// two never overlap. The sidebar owns only its own open/closed state, so the server layout needs no
+// client state to stay aligned.
 export default async function DashboardFrame({ active, children }) {
   const tenant = await getTenant();
   if (!tenant) redirect('/dashboard/sign-in');
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-6xl flex-col gap-10 px-5 py-10 sm:px-8 lg:flex-row">
-      <DashboardNav active={active} />
-      <main className="min-w-0 flex-1">{children(tenant)}</main>
+    <div className="min-h-screen bg-paper">
+      <Sidebar active={active} tier={tenant.tier} />
+      <main className="min-w-0 px-5 py-10 sm:px-8 lg:pl-72">
+        <div className="mx-auto max-w-5xl">{children(tenant)}</div>
+      </main>
     </div>
   );
 }

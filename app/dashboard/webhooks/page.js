@@ -34,7 +34,7 @@ export default async function WebhooksPage({ searchParams }) {
                   required={false}
                   hint="Private and link-local addresses are refused before the URL is saved."
                 />
-                <SubmitButton>Save webhook</SubmitButton>
+                <SubmitButton pendingLabel="Saving…">Save webhook</SubmitButton>
               </form>
             ) : (
               <div className="rounded-2xl border border-line bg-surface p-5">

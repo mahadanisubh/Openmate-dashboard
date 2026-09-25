@@ -41,6 +41,11 @@ export async function apiPut(path, apiKey, body) {
   return apiRequest(path, { method: 'PUT', apiKey, body });
 }
 
+// Public registration (T-019): no tenant key yet, so this path carries no credential.
+export async function apiPost(path, body) {
+  return apiRequest(path, { method: 'POST', body });
+}
+
 export async function apiUpload(path, apiKey, file, contentType) {
   const res = await fetch(`${apiBase()}${path}`, {
     method: 'POST',

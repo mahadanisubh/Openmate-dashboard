@@ -56,7 +56,7 @@ export default async function AppearancePage({ searchParams }) {
                 />
                 <span className="text-xs text-faint">Shown before the first message.</span>
               </label>
-              <SubmitButton>Save appearance</SubmitButton>
+              <SubmitButton pendingLabel="Saving…">Save appearance</SubmitButton>
             </form>
           </div>
         );
