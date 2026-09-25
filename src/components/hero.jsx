@@ -127,6 +127,44 @@ export default function Hero() {
                 Even at 2&nbsp;AM.
               </span>
             </motion.h1>
+
+            {/* The banner's call to action sits directly under the headline, where the eye lands
+             * first — the page's single strongest ask, not buried below the fold. */}
+            <Reveal delay={0.1}>
+              <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:items-center lg:mt-12">
+                <a
+                  href="#cta"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-white shadow-[0_14px_36px_-12px_rgba(15,122,90,0.9)] ring-1 ring-white/15 transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-[0_20px_46px_-12px_rgba(15,122,90,1)]"
+                >
+                  Create your assistant
+                  <svg
+                    viewBox="0 0 20 20"
+                    className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                  >
+                    <path d="M4 10h11M11 5l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </a>
+                <a
+                  href="#usecases"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/20"
+                >
+                  <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <circle cx="10" cy="10" r="7" />
+                    <path d="M8 7.5l5 2.5-5 2.5z" fill="currentColor" stroke="none" />
+                  </svg>
+                  See how it works
+                </a>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.16}>
+              <p className="mt-5 text-sm text-white/70 sm:mt-6">
+                Free to start &middot; One script tag &middot; Live in about 3 minutes
+              </p>
+            </Reveal>
           </div>
         </div>
       </div>

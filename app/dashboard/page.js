@@ -67,7 +67,7 @@ export default async function DashboardPage({ searchParams }) {
                   ))}
                 </ul>
               ) : (
-                <p className="mt-3 text-sm text-muted">No documents yet.</p>
+                <p className="mt-3 text-sm text-muted">No documents yet. Upload your document from the documents page.</p>
               )}
             </div>
           </div>

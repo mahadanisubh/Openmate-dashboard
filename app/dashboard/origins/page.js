@@ -32,7 +32,7 @@ export default async function OriginsPage({ searchParams }) {
                   spellCheck={false}
                   className="rounded-xl border border-line bg-surface px-4 py-2.5 font-mono text-sm outline-none transition-colors focus:border-accent"
                 />
-                <span className="text-xs text-faint">One origin per line, scheme://host[:port], with no path or wildcard. At most 20.</span>
+                <span className="text-xs text-faint">One origin per line, with no path or wildcard. At most 20.</span>
               </label>
               <SubmitButton pendingLabel="Saving…">Save origins</SubmitButton>
             </form>

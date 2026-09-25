@@ -51,34 +51,58 @@ export default function SiteHeader({ overlay = false }) {
         />
       )}
 
+      {/* A hairline of brand colour under the bar, so the navigation reads as part of the product
+       * rather than a plain strip. Present in both states, brightest at the centre. */}
+      <div
+        className={`pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(15,122,90,0.55),rgba(13,148,136,0.55),transparent)] ${overlay ? 'opacity-40' : 'opacity-100'}`}
+        aria-hidden="true"
+      />
+
       <div className={`${pad} flex items-center gap-6 py-4`}>
-        <a href={home} className={`flex items-center gap-2.5 font-display font-medium tracking-tight ${brandTone}`}>
-          <img
-            src="/logo-icon.ico"
-            alt=""
-            className="h-7 w-7 shrink-0 rounded-lg object-contain"
-            draggable="false"
-          />
+        <a href={home} className={`group flex items-center gap-2.5 font-display text-[17px] font-semibold tracking-tight ${brandTone}`}>
+          <span className="relative inline-flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-accent to-mint shadow-[0_6px_16px_-6px_rgba(15,122,90,0.9)] ring-1 ring-white/15">
+            <img
+              src="/logo-icon.ico"
+              alt=""
+              className="h-5 w-5 object-contain transition-transform duration-300 group-hover:scale-110"
+              draggable="false"
+            />
+          </span>
           OpenMate
         </a>
 
-        <nav className="ml-6 hidden items-center gap-7 text-sm md:flex">
+        <nav className="ml-6 hidden items-center gap-1 text-sm md:flex">
           {NAV.map((n) => (
-            <a key={n.label} href={n.href} className={`transition-colors ${linkTone}`}>
+            <a
+              key={n.label}
+              href={n.href}
+              className={`relative rounded-full px-3.5 py-2 font-medium transition-colors ${linkTone} ${
+                overlay ? 'hover:bg-white/10' : 'hover:bg-surface'
+              }`}
+            >
               {n.label}
             </a>
           ))}
         </nav>
 
         <div className="ml-auto hidden items-center gap-3 md:flex">
-          <a href="/dashboard" className={`text-sm transition-colors ${linkTone}`}>
+          <a
+            href="/dashboard"
+            className={`rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${linkTone} ${
+              overlay ? 'hover:bg-white/10' : 'hover:bg-surface'
+            }`}
+          >
             Sign in
           </a>
           <a
             href={anchor('#cta')}
-            className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+            className="group relative inline-flex items-center gap-1.5 overflow-hidden rounded-full bg-gradient-to-r from-accent to-mint px-5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_26px_-10px_rgba(15,122,90,0.95)] ring-1 ring-white/20 transition-transform duration-200 hover:-translate-y-0.5"
           >
+            <span className="pointer-events-none absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.35),transparent)] transition-transform duration-500 group-hover:translate-x-full" aria-hidden="true" />
             Create your assistant
+            <svg viewBox="0 0 20 20" className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="1.9">
+              <path d="M4 10h11M11 5l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </a>
         </div>
 
@@ -118,7 +142,7 @@ export default function SiteHeader({ overlay = false }) {
             ))}
             <a
               href={anchor('#cta')}
-              className="mt-2 rounded-full bg-accent px-4 py-2.5 text-center text-sm font-medium text-white"
+              className="mt-2 rounded-full bg-gradient-to-r from-accent to-mint px-4 py-2.5 text-center text-sm font-semibold text-white shadow-[0_10px_26px_-10px_rgba(15,122,90,0.95)]"
               onClick={() => setOpen(false)}
             >
               Create your assistant

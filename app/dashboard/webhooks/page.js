@@ -21,7 +21,7 @@ export default async function WebhooksPage({ searchParams }) {
             <SuccessNotice searchParams={params} keyName="saved" message="The webhook destination was saved." />
             <div>
               <h1 className="font-display text-3xl font-medium tracking-tight">Webhooks</h1>
-              <p className="mt-2 text-sm text-muted">Where captured leads are delivered, one POST per lead.</p>
+              <p className="mt-2 text-sm text-muted">Webhooks helps you to see captured leads and are delivered.</p>
             </div>
             {entitled ? (
               <form action={saveWebhook} className="flex flex-col gap-5 rounded-2xl border border-line bg-surface p-5">
@@ -38,7 +38,7 @@ export default async function WebhooksPage({ searchParams }) {
               </form>
             ) : (
               <div className="rounded-2xl border border-line bg-surface p-5">
-                <h2 className="font-display text-base font-medium">Pro and Agency</h2>
+                <h2 className="font-display text-base font-medium">Pro and Agency/Enterprise</h2>
                 <p className="mt-2 text-sm text-muted">Webhook delivery is available on Pro and Agency tiers. Upgrade to send captured leads to your own endpoint.</p>
               </div>
             )}
