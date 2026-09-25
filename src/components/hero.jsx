@@ -110,20 +110,22 @@ export default function Hero() {
           {/* Top padding includes the ~4rem the nav occupies, so the headline holds the position it
            * was tuned to now that the header is out of flow. */}
           <div className="relative w-full px-6 pt-30 sm:px-10 sm:pt-36 lg:px-16 lg:pt-42 xl:pt-46">
-            <Reveal as="span">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
-                <span className="h-3 w-1.5 rounded-full bg-accent-soft animate-pulse" />
-                An assistant for your website - not a support platform
-              </span>
+            {/* The supporting statement leads, set light and small so the headline below carries the
+             * weight — the two read as one lockup, not a badge above a title. */}
+            <Reveal delay={0.02}>
+              <p className="max-w-2xl font-display text-[clamp(1rem,1.5vw,1.35rem)] font-light leading-snug tracking-[0.01em] text-white/75 [text-shadow:0_2px_10px_rgba(0,0,0,0.35)]">
+                Turn your business knowledge into a{' '}
+                <span className="font-normal text-white">24/7 AI assistant.</span>
+              </p>
             </Reveal>
 
             <motion.h1
-              className="mt-4 font-display leading-[1.05] tracking-tight text-white [text-shadow:0_2px_14px_rgba(0,0,0,0.4)] sm:mt-6 lg:mt-8"
+              className="mt-4 font-display leading-[1.03] tracking-tight text-white [text-shadow:0_2px_14px_rgba(0,0,0,0.4)] sm:mt-5 lg:mt-6"
               style={reduce ? undefined : { fontWeight: weight, opacity: fade }}
             >
-              <span className="block text-[clamp(1.75rem,4vw,5rem)]">Your website should</span>
-              <span className="block text-[clamp(1.75rem,4vw,5rem)]">answer customers.</span>
-              <span className="mt-5 block text-[clamp(1.75rem,4vw,5rem)] text-mint sm:mt-7 lg:mt-9">
+              <span className="block text-[clamp(1.75rem,4vw,5rem)] font-medium">Your website should</span>
+              <span className="block text-[clamp(1.75rem,4vw,5rem)] font-extrabold">answer customers.</span>
+              <span className="mt-5 block text-[clamp(1.75rem,4vw,5rem)] font-black text-mint italic sm:mt-7 lg:mt-9">
                 Even at 2&nbsp;AM.
               </span>
             </motion.h1>
@@ -174,9 +176,9 @@ export default function Hero() {
         <div className="grid items-start gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
           <div>
             <Reveal>
-              <ScrollWeight from={400} to={600}>
+              <ScrollWeight from={500} to={800}>
                 <h2 className="max-w-xl font-display text-3xl leading-[1.12] tracking-tight sm:text-4xl">
-                  Turn your business knowledge into a 24/7 AI assistant.
+                  Built for the questions you answer every day.
                 </h2>
               </ScrollWeight>
             </Reveal>
