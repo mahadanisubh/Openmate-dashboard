@@ -7,7 +7,8 @@ import { usePathname } from 'next/navigation';
 // route/address. Kept as constants so there is exactly one place to change.
 const DOCS_HREF = '/docs';
 const CONTACT_HREF = '/contact';
-const COMMUNITY_HREF = '#community';
+// The community lives on Telegram; the link opens in a new tab so the marketing page is never lost.
+const COMMUNITY_HREF = 'https://t.me/openmatecommunity7';
 
 // `overlay` renders the nav inside the hero banner (absolute, light-on-image, aligned to the hero's
 // own padding) instead of as a separate sticky bar. Pages without a banner use the default.
@@ -23,7 +24,7 @@ export default function SiteHeader({ overlay = false, signedIn = false }) {
     { label: 'Pricing', href: '/pricing' },
     { label: 'Docs', href: DOCS_HREF },
     { label: 'Contact us', href: CONTACT_HREF },
-    { label: 'Community', href: COMMUNITY_HREF },
+    { label: 'Community', href: COMMUNITY_HREF, external: true },
   ];
 
   useEffect(() => {
@@ -84,6 +85,7 @@ export default function SiteHeader({ overlay = false, signedIn = false }) {
             <a
               key={n.label}
               href={n.href}
+              {...(n.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               className={`relative rounded-full px-3.5 py-2 font-medium transition-colors ${linkTone} ${
                 overlay ? 'hover:bg-white/10' : 'hover:bg-surface'
               }`}
@@ -142,6 +144,7 @@ export default function SiteHeader({ overlay = false, signedIn = false }) {
               <a
                 key={n.label}
                 href={n.href}
+                {...(n.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 className={`rounded-lg px-2 py-2.5 text-sm ${
                   overlay ? 'text-white/85 hover:bg-white/10' : 'text-muted hover:bg-surface hover:text-ink'
                 }`}

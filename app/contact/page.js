@@ -1,44 +1,31 @@
 import SiteHeader from '../../src/components/site-header.jsx';
 import SiteFooter from '../../src/components/site-footer.jsx';
+import ContactForm from '../../src/components/contact-form.jsx';
+import { hasSession } from '../../src/lib/session.js';
 
-// TODO(human): set the real contact address. While this is null the page states that the channel is
-// being set up rather than printing a fabricated address.
-const CONTACT_EMAIL = null;
+export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: 'Contact — OpenMate',
-  description: 'Get in touch with the OpenMate team.',
+  description: 'Send the OpenMate team a query or a suggestion.',
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const signedIn = await hasSession();
   return (
     <div className="min-h-screen bg-paper text-ink">
-      <SiteHeader />
-      <main className="mx-auto max-w-3xl px-5 py-24 sm:px-8">
-        <h1 className="font-display text-4xl leading-tight tracking-tight sm:text-5xl">Contact</h1>
-        {CONTACT_EMAIL ? (
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">
-            Reach us at{' '}
-            <a href={`mailto:${CONTACT_EMAIL}`} className="text-accent underline underline-offset-4">
-              {CONTACT_EMAIL}
-            </a>
-            .
-          </p>
-        ) : (
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">
-            Our contact channel is being set up. Check back shortly, or start free and we will reach out
-            as your assistant goes live.
-          </p>
-        )}
-        <a
-          href="/#cta"
-          className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
-        >
-          Start free
-          <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
-            <path d="M4 10h11M11 5l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </a>
+      <SiteHeader signedIn={signedIn} />
+      <main className="mx-auto max-w-2xl px-5 py-24 sm:px-8">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">Contact us</p>
+        <h1 className="mt-3 font-display text-4xl leading-tight tracking-tight sm:text-5xl">Talk to us</h1>
+        <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">
+          Send us a <strong>query</strong> if you have a question, or a <strong>suggestion</strong> if
+          there is something we could do better. We read every message.
+        </p>
+
+        <div className="mt-10">
+          <ContactForm />
+        </div>
       </main>
       <SiteFooter />
     </div>
