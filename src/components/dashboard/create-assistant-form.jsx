@@ -9,7 +9,7 @@ import CopyButton from './copy-button.jsx';
 // The Create Assistant flow is client-owned because the returned key must be revealed once, in
 // place, before the visitor can continue to sign-in. A server redirect would either lose the key or
 // have to persist it before the user copies it.
-export default function CreateAssistantForm() {
+export default function CreateAssistantForm({ googleEnabled = false }) {
   const [created, setCreated] = useState(null);
   const [error, setError] = useState(null);
   const [pending, setPending] = useState(false);
@@ -128,18 +128,23 @@ export default function CreateAssistantForm() {
 
       <button
         type="button"
-        disabled
-        title="Google sign-in is not configured on this deployment"
-        className="inline-flex items-center justify-center gap-2 rounded-full border border-line bg-paper px-5 py-2.5 text-sm font-medium text-muted disabled:cursor-not-allowed disabled:opacity-60"
+        disabled={!googleEnabled}
+        title={googleEnabled ? 'Continue with Google' : 'Google sign-in is not configured on this deployment'}
+        onClick={() => {
+          if (googleEnabled) window.location.href = '/api/auth/google';
+        }}
+        className="inline-flex items-center justify-center gap-2 rounded-full border border-line-strong bg-white px-5 py-3 text-sm font-semibold text-ink shadow-[0_2px_10px_-4px_rgba(31,26,20,0.35)] transition-all duration-200 hover:-translate-y-0.5 hover:border-ink/30 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
       >
         <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
           <path fill="#4285F4" d="M21.35 11.1H12v2.9h5.35c-.23 1.5-1.74 4.4-5.35 4.4a5.4 5.4 0 0 1 0-10.8c1.53 0 2.56.65 3.15 1.21l2.15-2.07A8.8 8.8 0 0 0 12 4a9 9 0 1 0 0 18c5.2 0 8.63-3.65 8.63-8.8 0-.59-.07-1.04-.28-1.1z" />
         </svg>
         Continue with Google
       </button>
-      <p className="text-xs text-faint">
-        Google sign-in becomes available once the deployment is configured with OAuth credentials.
-      </p>
+      {!googleEnabled ? (
+        <p className="text-xs text-faint">
+          Google sign-in becomes available once the deployment is configured with OAuth credentials.
+        </p>
+      ) : null}
     </form>
   );
 }

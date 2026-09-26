@@ -21,7 +21,7 @@ export default async function CreateAssistantPage() {
         Register your platform to get a tenant key. You will use that key to sign in to the dashboard.
       </p>
       <div className="mt-8">
-        <CreateAssistantForm />
+        <CreateAssistantForm googleEnabled={Boolean(process.env.GOOGLE_CLIENT_ID)} />
       </div>
       <p className="mt-6 text-sm text-muted">
         Already have a key?{' '}
