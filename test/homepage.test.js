@@ -82,7 +82,12 @@ test('pricing sells in business terms, not technical quotas', () => {
     assert.match(pricing, new RegExp(tier.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), `pricing must list ${tier}`);
   }
   assert.match(pricing, /Coming soon/, 'Pro and Agency are marked coming soon');
-  assert.match(pricing, /Where it fits/, 'each tier names its use cases');
+  // The tiers are compared on what each unlocks, not a scenario wish-list.
+  assert.match(pricing, /What each plan includes/, 'pricing carries the tier comparison');
+  for (const feature of ['Website origins', 'Knowledge documents', 'OpenMate branding', 'Assistant appearance', 'Lead webhooks']) {
+    assert.match(pricing, new RegExp(feature), `pricing must compare ${feature}`);
+  }
+  assert.match(pricing, /1 domain/, 'the free origin limit is stated as a single domain');
   // Pro and Agency show no price while they are unbuilt.
   assert.doesNotMatch(pricing, /\$19|\$79/, 'unbuilt tiers must not carry a price');
 });
