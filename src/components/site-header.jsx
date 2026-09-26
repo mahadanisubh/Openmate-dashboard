@@ -7,10 +7,12 @@ import { usePathname } from 'next/navigation';
 // route/address. Kept as constants so there is exactly one place to change.
 const DOCS_HREF = '/docs';
 const CONTACT_HREF = '/contact';
+const COMMUNITY_HREF = '#community';
 
 // `overlay` renders the nav inside the hero banner (absolute, light-on-image, aligned to the hero's
 // own padding) instead of as a separate sticky bar. Pages without a banner use the default.
-export default function SiteHeader({ overlay = false }) {
+// `signedIn` is resolved on the server from the session cookie's presence and switches the CTA.
+export default function SiteHeader({ overlay = false, signedIn = false }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -18,10 +20,10 @@ export default function SiteHeader({ overlay = false }) {
   const home = pathname === '/' ? '#top' : '/';
 
   const NAV = [
-    { label: 'Use cases', href: anchor('#usecases') },
     { label: 'Pricing', href: '/pricing' },
     { label: 'Docs', href: DOCS_HREF },
-    { label: 'Contact', href: CONTACT_HREF },
+    { label: 'Contact us', href: CONTACT_HREF },
+    { label: 'Community', href: COMMUNITY_HREF },
   ];
 
   useEffect(() => {
@@ -41,9 +43,14 @@ export default function SiteHeader({ overlay = false }) {
   const brandTone = overlay ? 'text-white' : 'text-ink';
   const linkTone = overlay ? 'text-white/85 hover:text-white' : 'text-muted hover:text-ink';
 
+  // The single primary action: a signed-in visitor returns to their dashboard, everyone else starts
+  // the Create Assistant flow.
+  const cta = signedIn
+    ? { href: '/dashboard', label: 'Go to dashboard' }
+    : { href: '/create-assistant', label: 'Create your assistant' };
+
   return (
     <header className={shell}>
-      {/* A top scrim so the nav stays legible over whatever the banner shows beneath it. */}
       {overlay && (
         <div
           className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-28 bg-gradient-to-b from-ink-panel/75 via-ink-panel/25 to-transparent"
@@ -60,11 +67,12 @@ export default function SiteHeader({ overlay = false }) {
 
       <div className={`${pad} flex items-center gap-6 py-4`}>
         <a href={home} className={`group flex items-center gap-2.5 font-display text-[17px] font-semibold tracking-tight ${brandTone}`}>
-          <span className="relative inline-flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-accent to-mint shadow-[0_6px_16px_-6px_rgba(15,122,90,0.9)] ring-1 ring-white/15">
+          {/* The mark sits on a white chip to match the widget launcher, not a coloured block. */}
+          <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white shadow-[0_6px_16px_-8px_rgba(0,0,0,0.5)] ring-1 ring-black/5">
             <img
               src="/logo-icon.ico"
               alt=""
-              className="h-5 w-5 object-contain transition-transform duration-300 group-hover:scale-110"
+              className="h-6 w-6 object-contain transition-transform duration-300 group-hover:scale-110"
               draggable="false"
             />
           </span>
@@ -86,20 +94,22 @@ export default function SiteHeader({ overlay = false }) {
         </nav>
 
         <div className="ml-auto hidden items-center gap-3 md:flex">
+          {!signedIn && (
+            <a
+              href="/dashboard/sign-in"
+              className={`rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${linkTone} ${
+                overlay ? 'hover:bg-white/10' : 'hover:bg-surface'
+              }`}
+            >
+              Sign in
+            </a>
+          )}
           <a
-            href="/dashboard"
-            className={`rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${linkTone} ${
-              overlay ? 'hover:bg-white/10' : 'hover:bg-surface'
-            }`}
-          >
-            Sign in
-          </a>
-          <a
-            href={anchor('#cta')}
+            href={cta.href}
             className="group relative inline-flex items-center gap-1.5 overflow-hidden rounded-full bg-gradient-to-r from-accent to-mint px-5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_26px_-10px_rgba(15,122,90,0.95)] ring-1 ring-white/20 transition-transform duration-200 hover:-translate-y-0.5"
           >
             <span className="pointer-events-none absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.35),transparent)] transition-transform duration-500 group-hover:translate-x-full" aria-hidden="true" />
-            Create your assistant
+            {cta.label}
             <svg viewBox="0 0 20 20" className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="1.9">
               <path d="M4 10h11M11 5l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -140,12 +150,23 @@ export default function SiteHeader({ overlay = false }) {
                 {n.label}
               </a>
             ))}
+            {!signedIn && (
+              <a
+                href="/dashboard/sign-in"
+                className={`rounded-lg px-2 py-2.5 text-sm ${
+                  overlay ? 'text-white/85 hover:bg-white/10' : 'text-muted hover:bg-surface hover:text-ink'
+                }`}
+                onClick={() => setOpen(false)}
+              >
+                Sign in
+              </a>
+            )}
             <a
-              href={anchor('#cta')}
+              href={cta.href}
               className="mt-2 rounded-full bg-gradient-to-r from-accent to-mint px-4 py-2.5 text-center text-sm font-semibold text-white shadow-[0_10px_26px_-10px_rgba(15,122,90,0.95)]"
               onClick={() => setOpen(false)}
             >
-              Create your assistant
+              {cta.label}
             </a>
           </nav>
         </div>

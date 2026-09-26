@@ -10,11 +10,17 @@ import BeforeAfter from '../src/components/before-after.jsx';
 //   import ForAgencies from '../src/components/for-agencies.jsx';
 import FinalCta from '../src/components/final-cta.jsx';
 import SiteFooter from '../src/components/site-footer.jsx';
+import { hasSession } from '../src/lib/session.js';
+
+export const dynamic = 'force-dynamic';
 
 // The marketing homepage. Server components by default; the only interactive
 // islands are the chat widget preview, the reveal wrapper, the count-up, and the
 // header's scroll state. Reads end to end with JavaScript disabled through pricing.
-export default function Page() {
+export default async function Page() {
+  // A display hint only: a signed-in visitor sees "Go to dashboard" instead of the create CTA. The
+  // tenant is still verified by the API on every dashboard request.
+  const signedIn = await hasSession();
   return (
     <div className="relative min-h-screen bg-paper text-ink">
       <a
@@ -23,9 +29,9 @@ export default function Page() {
       >
         Skip to content
       </a>
-      <SiteHeader overlay />
+      <SiteHeader overlay signedIn={signedIn} />
       <main>
-        <Hero />
+        <Hero signedIn={signedIn} />
         <Marquee />
         <UseCases />
         <WhyOpenMate />

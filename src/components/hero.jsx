@@ -67,7 +67,7 @@ const HERO_SCRIPT = [
   },
 ];
 
-export default function Hero() {
+export default function Hero({ signedIn = false }) {
   const ref = useRef(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
@@ -135,10 +135,10 @@ export default function Hero() {
             <Reveal delay={0.1}>
               <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:items-center lg:mt-12">
                 <a
-                  href="#cta"
+                  href={signedIn ? '/dashboard' : '/create-assistant'}
                   className="group inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-white shadow-[0_14px_36px_-12px_rgba(15,122,90,0.9)] ring-1 ring-white/15 transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-[0_20px_46px_-12px_rgba(15,122,90,1)]"
                 >
-                  Create your assistant
+                  {signedIn ? 'Go to dashboard' : 'Create your assistant'}
                   <svg
                     viewBox="0 0 20 20"
                     className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
@@ -193,10 +193,10 @@ export default function Hero() {
             <Reveal delay={0.12}>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a
-                  href="#cta"
+                  href={signedIn ? '/dashboard' : '/create-assistant'}
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
                 >
-                  Create your assistant
+                  {signedIn ? 'Go to dashboard' : 'Create your assistant'}
                   <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
                     <path d="M4 10h11M11 5l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
