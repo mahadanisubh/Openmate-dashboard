@@ -2,6 +2,52 @@
 
 import { useState } from 'react';
 
+// A tiny, dependency-free highlighter. It is deliberately shallow — enough to make the code read as
+// code and, crucially, to set the widget's own <script> line apart from the surrounding boilerplate
+// so a reader's eye lands on the one line that matters.
+const TOKEN = /(\/\/[^\n]*|<!--[\s\S]*?-->)|('[^']*'|"[^"]*")|(\b(?:import|from|export|default|function|return|const|let|var|new|useEffect)\b)|(\b(?:html|head|body|div|script|main|app-root|template|p|h1)\b)/g;
+
+function tokenize(code) {
+  const nodes = [];
+  let last = 0;
+  let key = 0;
+  for (const match of code.matchAll(TOKEN)) {
+    if (match.index > last) nodes.push({ type: 'plain', text: code.slice(last, match.index), key: key++ });
+    const [full, comment, string, keyword, tag] = match;
+    const type = comment ? 'comment' : string ? 'string' : keyword ? 'keyword' : tag ? 'tag' : 'plain';
+    nodes.push({ type, text: full, key: key++ });
+    last = match.index + full.length;
+  }
+  if (last < code.length) nodes.push({ type: 'plain', text: code.slice(last), key: key++ });
+  return nodes;
+}
+
+const COLOR = {
+  comment: 'text-emerald-300/45 italic',
+  string: 'text-amber-200',
+  keyword: 'text-fuchsia-300',
+  tag: 'text-sky-300',
+  plain: 'text-white/85',
+};
+
+// The widget embed line gets its own treatment: a tinted band with the accent, so "this is the tag
+// you paste" is obvious at a glance.
+function HighlightedLine({ line }) {
+  const isEmbed = /data-bot-id|widget\.js/.test(line);
+  const nodes = tokenize(line);
+  return (
+    <span
+      className={isEmbed ? 'block -mx-4 rounded bg-accent/15 px-4 shadow-[inset_3px_0_0_0_var(--color-accent)]' : 'block'}
+    >
+      {nodes.map((n) => (
+        <span key={n.key} className={COLOR[n.type]}>
+          {n.text}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 export default function CodeBlock({ code, label = 'Copy' }) {
   const [copied, setCopied] = useState(false);
 
@@ -14,6 +60,8 @@ export default function CodeBlock({ code, label = 'Copy' }) {
       setCopied(false);
     }
   }
+
+  const lines = code.split('\n');
 
   return (
     <div className="group relative overflow-hidden rounded-xl border border-line bg-ink-panel">
@@ -43,8 +91,12 @@ export default function CodeBlock({ code, label = 'Copy' }) {
           )}
         </button>
       </div>
-      <pre className="overflow-x-auto px-4 py-4 text-[13px] leading-relaxed text-white/90">
-        <code>{code}</code>
+      <pre className="overflow-x-auto px-4 py-4 text-[13px] leading-relaxed">
+        <code className="font-mono">
+          {lines.map((line, i) => (
+            <HighlightedLine key={i} line={line} />
+          ))}
+        </code>
       </pre>
     </div>
   );
