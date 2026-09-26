@@ -14,7 +14,13 @@ export default async function CreateAssistantPage() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-lg flex-col justify-center px-5 py-16">
-      <Link href="/" className="font-display text-lg font-medium tracking-tight">
+      <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-ink">
+        <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="M16 10H5M9 5l-5 5 5 5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        Back to main site
+      </Link>
+      <Link href="/" className="mt-6 font-display text-lg font-medium tracking-tight">
         OpenMate
       </Link>
       <h1 className="mt-8 font-display text-3xl font-medium tracking-tight">Create assistant</h1>
