@@ -1,7 +1,8 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useReducedMotion } from 'motion/react';
+import { motion, useScroll, useTransform, useReducedMotion, useMotionValue, useSpring } from 'motion/react';
+import CausticField from './caustic-field.jsx';
 import Reveal from './reveal.jsx';
 import ScrollWeight from './scroll-weight.jsx';
 import ChatWidget from './chat-widget.jsx';
@@ -77,22 +78,68 @@ export default function Hero({ signedIn = false }) {
   const weight = useTransform(scrollYProgress, [0, 1], [500, 900]);
   const fade = useTransform(scrollYProgress, [0, 0.8], [1, 0.35]);
 
+  // Depth on pointer move: the image and the caustic light drift a few pixels against the cursor, so
+  // the banner reads as a volume you are looking into. Desktop only — a touch device never fires a
+  // pointer, and reduced motion leaves both at rest.
+  const px = useSpring(useMotionValue(0), { stiffness: 60, damping: 20, mass: 0.6 });
+  const py = useSpring(useMotionValue(0), { stiffness: 60, damping: 20, mass: 0.6 });
+  const imgX = useTransform(px, [-1, 1], [-14, 14]);
+  const imgY = useTransform(py, [-1, 1], [-10, 10]);
+  const causticX = useTransform(px, [-1, 1], [20, -20]);
+  const causticY = useTransform(py, [-1, 1], [14, -14]);
+
+  const onPointer = (event) => {
+    if (reduce) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    px.set(((event.clientX - rect.left) / rect.width) * 2 - 1);
+    py.set(((event.clientY - rect.top) / rect.height) * 2 - 1);
+  };
+  const onLeave = () => {
+    px.set(0);
+    py.set(0);
+  };
+
   return (
     <section id="top" ref={ref} className="relative isolate overflow-hidden">
       {/* The banner fills the whole viewport; the nav now overlays its top rather than sitting in a
        * bar above it. object-cover crops the image's top and bottom equally. */}
-      <div className="relative h-svh min-h-[560px] w-full bg-ink-panel">
-        <picture>
-          <source srcSet="/hero.webp" type="image/webp" />
-          <img
-            src="/hero.jpg"
-            alt="The OpenMate assistant answering a customer question on a business website"
-            width={1600}
-            height={900}
-            className="block h-full w-full animate-hero-drift object-cover object-center"
-            fetchPriority="high"
-          />
-        </picture>
+      <div
+        className="relative h-svh min-h-[560px] w-full overflow-hidden bg-ink-panel"
+        onPointerMove={onPointer}
+        onPointerLeave={onLeave}
+      >
+        <motion.div
+          className="animate-water-rise block h-full w-full"
+          style={reduce ? undefined : { x: imgX, y: imgY }}
+        >
+          <picture className="block h-full w-full">
+            <source srcSet="/hero.webp" type="image/webp" />
+            <img
+              src="/hero.jpg"
+              alt="The OpenMate assistant answering a customer question on a business website"
+              width={1600}
+              height={900}
+              className="block h-full w-full animate-hero-drift object-cover object-center"
+              fetchPriority="high"
+            />
+          </picture>
+        </motion.div>
+
+        {/* An emerald grade: deepens the shadows toward the brand and warms the highlights, so the
+         * photograph reads as one image with the page rather than a pasted-in picture. */}
+        <div
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(130deg,rgba(10,52,40,0.32)_0%,rgba(16,60,46,0.12)_46%,rgba(15,122,90,0.14)_100%)] mix-blend-multiply"
+          aria-hidden="true"
+        />
+
+        {/* The caustic light field, drifting opposite the image: water light playing over the scene,
+         * the same shimmer as the backdrop so the hero belongs to the page. */}
+        <motion.div className="pointer-events-none absolute inset-0" aria-hidden="true" style={reduce ? undefined : { x: causticX, y: causticY }}>
+          {/* Scaled past the viewport so the counter-drift never exposes an edge. */}
+          <div className="absolute -inset-[8%]">
+            <CausticField className="h-full w-full mix-blend-screen opacity-70" flow={0.35} filmBase={0} filmScale={0.85} rowFade={false} tint={[0.6, 1, 0.85]} />
+          </div>
+        </motion.div>
 
         {/* Light passing over the banner — a wide skewed band, brightest at its centre and fading to
          * nothing at both edges, so it never reads as a panel sliding across the image. */}

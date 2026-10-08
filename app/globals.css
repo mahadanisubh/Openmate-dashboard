@@ -111,11 +111,24 @@ body {
   .animate-typing,
   .animate-hero-drift,
   .animate-hero-sweep,
+  .animate-fog-a,
+  .animate-fog-b,
+  .animate-fog-c,
+  .animate-plume,
+  .animate-ripple,
+  .animate-water-rise,
+  .parallax-fog-a,
+  .parallax-fog-b,
+  .parallax-fog-c,
   .hover-lift,
   .hover-scale {
     animation: none !important;
     transition: none !important;
     transform: none !important;
+  }
+  /* The water line still fills — it is progress, not decoration — but it snaps instead of easing. */
+  .water-fill {
+    transition: none;
   }
 }
 
@@ -261,5 +274,126 @@ body {
 }
 .animate-hero-sweep {
   animation: hero-sweep 9s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* --- hero water-rise reveal ------------------------------------------------
+ * On load the banner surfaces from below: a bottom-to-top clip reveal, as if the image rises through
+ * water into view. One authored entrance, clip-path only (no layout), and it resolves to the fully
+ * revealed frame so a failed animation still shows the photograph. */
+@keyframes water-rise {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+.animate-water-rise {
+  animation: water-rise 1.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* --- ambient fog banks ----------------------------------------------------
+ * Three oversized, heavily-blurred green pools drift on different periods so their overlap never
+ * repeats on an obvious beat. Transform/opacity only, so compositing stays on the GPU and the layout
+ * never reflows. Reduced motion is neutralised by the block above. */
+@keyframes fog-drift-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(9%, -7%, 0) scale(1.22);
+  }
+}
+@keyframes fog-drift-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.08);
+  }
+  50% {
+    transform: translate3d(-11%, 6%, 0) scale(1);
+  }
+}
+@keyframes fog-drift-c {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.94);
+  }
+  50% {
+    transform: translate3d(6%, 10%, 0) scale(1.16);
+  }
+}
+.animate-fog-a {
+  animation: fog-drift-a 26s ease-in-out infinite;
+  will-change: transform;
+}
+.animate-fog-b {
+  animation: fog-drift-b 34s ease-in-out infinite;
+  will-change: transform;
+}
+.animate-fog-c {
+  animation: fog-drift-c 44s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* --- scroll parallax for the ambient fog -----------------------------------
+ * The scroll driver sets `--scroll-y` (a unitless multiple of the viewport height). Each bank moves
+ * at its own factor so the layers separate in depth as the page moves. Transform only, on wrappers
+ * whose inner element owns the drift keyframes, so the two transforms never fight. */
+.parallax-fog-a {
+  transform: translate3d(0, calc(var(--scroll-y, 0) * -46px), 0);
+}
+.parallax-fog-b {
+  transform: translate3d(0, calc(var(--scroll-y, 0) * -104px), 0);
+}
+.parallax-fog-c {
+  transform: translate3d(0, calc(var(--scroll-y, 0) * -168px), 0);
+}
+
+/* --- water-fill progress line ----------------------------------------------
+ * The page's own progress, read as a rising water column: a green fill grows left-to-right as the
+ * reader descends. scaleX only, so it never triggers layout. */
+.water-fill {
+  transform: scaleX(var(--scroll-progress, 0));
+  transform-origin: left center;
+}
+
+/* --- ink-in-water section band ---------------------------------------------
+ * A green pigment plume blooming where two sections meet: three blurred pools expanding on offset
+ * periods, so the seam reads as the assistant's colour bleeding into the paper rather than a rule. */
+@keyframes plume {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.7);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translate3d(4%, -12%, 0) scale(1.35);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.7);
+    opacity: 0.35;
+  }
+}
+.animate-plume {
+  animation: plume 18s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* --- ripple rings ----------------------------------------------------------
+ * Concentric rings seep outward from a droplet's entry point, like a still-water impact. */
+@keyframes ripple {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+.animate-ripple {
+  animation: ripple 5.5s ease-out infinite;
   will-change: transform, opacity;
 }

@@ -36,7 +36,11 @@ function Icon({ name }) {
 }
 
 export default function Sidebar({ active, tier }) {
+  // Desktop collapse (persisted) and the mobile drawer are separate states on purpose: the drawer
+  // must open and close independently of the collapsed rail, and the reopen control has to live
+  // outside the drawer — otherwise a closed mobile drawer hides the only button that could reopen it.
   const [open, setOpen] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const items = NAV.filter((item) => !item.paid || tier !== 'free');
 
   // Read the stored preference after mount so the server-rendered markup (expanded) and the first
@@ -48,6 +52,15 @@ export default function Sidebar({ active, tier }) {
       // Private mode: keep the default rather than failing the shell.
     }
   }, []);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKey = (event) => {
+      if (event.key === 'Escape') setMobileOpen(false);
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [mobileOpen]);
 
   function toggle() {
     setOpen((next) => {
@@ -65,18 +78,40 @@ export default function Sidebar({ active, tier }) {
 
   return (
     <>
-      {open ? (
+      {/* No-JS fallback: force the drawer into place and retire the script-only controls, so the
+       * nav stays reachable when client JS never hydrates. */}
+      <noscript>
+        <style>{'.dashboard-drawer{transform:none !important}.dashboard-menu-button{display:none !important}'}</style>
+      </noscript>
+
+      {/* Mobile drawer scrim. Only exists while the drawer is open. */}
+      {mobileOpen ? (
         <button
           type="button"
           aria-label="Close navigation"
-          onClick={toggle}
-          className="fixed inset-0 z-30 bg-ink/30 backdrop-blur-sm lg:hidden"
+          onClick={() => setMobileOpen(false)}
+          className="fixed inset-0 z-30 bg-ink/40 backdrop-blur-sm lg:hidden"
         />
       ) : null}
 
+      {/* The reopen control. It sits outside the drawer so a closed drawer is never a dead end. */}
+      {!mobileOpen ? (
+        <button
+          type="button"
+          aria-label="Open navigation"
+          aria-expanded={false}
+          onClick={() => setMobileOpen(true)}
+          className="dashboard-menu-button fixed left-4 top-4 z-30 grid h-11 w-11 place-items-center rounded-xl border border-line bg-surface text-ink shadow-[0_10px_28px_-14px_rgba(31,26,20,0.6)] transition-transform hover:-translate-y-0.5 lg:hidden"
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+        </button>
+      ) : null}
+
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-line bg-surface transition-[transform,width] duration-300 ${expanded} ${
-          open ? 'translate-x-0' : '-translate-x-full'
+        className={`dashboard-drawer fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-line bg-surface shadow-2xl transition-[transform,width] duration-300 lg:shadow-none ${expanded} ${
+          mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
         <div className="flex items-center justify-between gap-2 px-4 py-5">
@@ -86,12 +121,23 @@ export default function Sidebar({ active, tier }) {
           >
             OpenMate
           </Link>
+          {/* Mobile: close the drawer. Desktop: collapse the rail. Two controls, one slot. */}
+          <button
+            type="button"
+            onClick={() => setMobileOpen(false)}
+            aria-label="Close navigation"
+            className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-line text-muted transition-colors hover:border-line-strong hover:text-ink lg:hidden"
+          >
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          </button>
           <button
             type="button"
             onClick={toggle}
             aria-label={open ? 'Collapse sidebar' : 'Expand sidebar'}
             aria-expanded={open}
-            className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-line text-muted transition-colors hover:border-line-strong hover:text-ink"
+            className="hidden h-8 w-8 shrink-0 place-items-center rounded-lg border border-line text-muted transition-colors hover:border-line-strong hover:text-ink lg:grid"
           >
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d={open ? 'M15 6l-6 6 6 6' : 'M9 6l6 6-6 6'} />
@@ -108,6 +154,7 @@ export default function Sidebar({ active, tier }) {
                 href={item.href}
                 title={item.label}
                 aria-current={isActive ? 'page' : undefined}
+                onClick={() => setMobileOpen(false)}
                 className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${
                   isActive ? 'bg-ink text-white' : 'text-muted hover:bg-paper hover:text-ink'
                 } ${open ? '' : 'lg:justify-center lg:px-0'}`}

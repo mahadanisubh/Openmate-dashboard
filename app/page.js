@@ -1,3 +1,6 @@
+import AmbientBackdrop from '../src/components/ambient-backdrop.jsx';
+import ScrollProgress from '../src/components/scroll-progress.jsx';
+import WaterBand from '../src/components/water-band.jsx';
 import SiteHeader from '../src/components/site-header.jsx';
 import Hero from '../src/components/hero.jsx';
 import Marquee from '../src/components/marquee.jsx';
@@ -22,7 +25,9 @@ export default async function Page() {
   // tenant is still verified by the API on every dashboard request.
   const signedIn = await hasSession();
   return (
-    <div className="relative min-h-screen bg-paper text-ink">
+    <div className="relative min-h-screen text-ink">
+      <AmbientBackdrop />
+      <ScrollProgress />
       <a
         href="#usecases"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:text-white"
@@ -32,6 +37,7 @@ export default async function Page() {
       <SiteHeader overlay signedIn={signedIn} />
       <main>
         <Hero signedIn={signedIn} />
+        <WaterBand />
         <Marquee />
         <UseCases />
         <WhyOpenMate />
