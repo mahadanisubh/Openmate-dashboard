@@ -7,7 +7,7 @@ export const metadata = {
   description: 'Add the OpenMate assistant to any website in one script tag. Guides for HTML, React, Next.js, Vue, and Angular.',
 };
 
-const SCRIPT = '<script src="http://localhost:8080/widget.js" data-bot-id="YOUR_BOT_ID" defer></script>';
+const SCRIPT = '<script src="https://api.openmate.bond/widget.js" data-bot-id="YOUR_BOT_ID" defer></script>';
 
 // Platforms share one shape: get the tag into the page's HTML. Each entry says where.
 const PLATFORMS = [
@@ -21,7 +21,7 @@ const PLATFORMS = [
     <!-- your page content -->
 
     <script
-      src="http://localhost:8080/widget.js"
+      src="https://api.openmate.bond/widget.js"
       data-bot-id="YOUR_BOT_ID"
       defer
     ></script>
@@ -38,7 +38,7 @@ const PLATFORMS = [
   <div id="root"></div>
 
   <script
-    src="http://localhost:8080/widget.js"
+    src="https://api.openmate.bond/widget.js"
     data-bot-id="YOUR_BOT_ID"
     defer
   ></script>
@@ -54,7 +54,7 @@ const PLATFORMS = [
 export default function OpenMateWidget() {
   useEffect(() => {
     const s = document.createElement('script');
-    s.src = 'http://localhost:8080/widget.js';
+    s.src = 'https://api.openmate.bond/widget.js';
     s.setAttribute('data-bot-id', 'YOUR_BOT_ID');
     s.defer = true;
     document.body.appendChild(s);
@@ -79,7 +79,7 @@ export default function RootLayout({ children }) {
       <body>
         {children}
         <Script
-          src="http://localhost:8080/widget.js"
+          src="https://api.openmate.bond/widget.js"
           data-bot-id="YOUR_BOT_ID"
           strategy="afterInteractive"
         />
@@ -101,7 +101,7 @@ export default function App({ Component, pageProps }) {
     <>
       <Component {...pageProps} />
       <Script
-        src="http://localhost:8080/widget.js"
+        src="https://api.openmate.bond/widget.js"
         data-bot-id="YOUR_BOT_ID"
         strategy="afterInteractive"
       />
@@ -118,7 +118,7 @@ export default function App({ Component, pageProps }) {
   <div id="app"></div>
 
   <script
-    src="http://localhost:8080/widget.js"
+    src="https://api.openmate.bond/widget.js"
     data-bot-id="YOUR_BOT_ID"
     defer
   ></script>
@@ -135,7 +135,7 @@ export default function App({ Component, pageProps }) {
   <app-root></app-root>
 
   <script
-    src="http://localhost:8080/widget.js"
+    src="https://api.openmate.bond/widget.js"
     data-bot-id="YOUR_BOT_ID"
     defer
   ></script>
