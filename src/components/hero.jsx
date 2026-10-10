@@ -8,7 +8,7 @@ import ScrollWeight from './scroll-weight.jsx';
 import ChatWidget from './chat-widget.jsx';
 
 const INSTALL_SNIPPET = `<script
-  src="/widget.js"
+  src="https://api.openmate.bond/widget.js"
   data-bot-id="YOUR_BOT_ID"
   defer
 ></script>`;

@@ -1,5 +1,5 @@
 export function widgetBase() {
-  return (process.env.OPENMATE_WIDGET_BASE ?? process.env.OPENMATE_API_BASE ?? 'http://localhost:8080').replace(/\/+$/, '');
+  return (process.env.OPENMATE_WIDGET_BASE ?? process.env.OPENMATE_API_BASE ?? 'https://api.openmate.bond').replace(/\/+$/, '');
 }
 
 function escapeAttribute(value) {

@@ -15,7 +15,7 @@ test('the api base has no trailing slash', () => {
   process.env.OPENMATE_API_BASE = 'https://api.example.com///';
   assert.equal(apiBase(), 'https://api.example.com');
   delete process.env.OPENMATE_API_BASE;
-  assert.equal(apiBase(), 'http://localhost:8080');
+  assert.equal(apiBase(), 'https://api.openmate.bond');
 });
 
 test('the embed tag is omitted until the tenant has a public bot id', () => {
@@ -43,7 +43,7 @@ test('the widget base falls back to the api base', () => {
   process.env.OPENMATE_API_BASE = 'https://api.example.com/';
   assert.equal(widgetBase(), 'https://api.example.com');
   delete process.env.OPENMATE_API_BASE;
-  assert.equal(widgetBase(), 'http://localhost:8080');
+  assert.equal(widgetBase(), 'https://api.openmate.bond');
 });
 
 test('api errors become the message a tenant can act on', () => {
