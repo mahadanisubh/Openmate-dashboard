@@ -197,7 +197,7 @@ export default function Hero({ signedIn = false }) {
                   </svg>
                 </a>
                 <a
-                  href="#usecases"
+                  href="/docs"
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/20"
                 >
                   <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -249,7 +249,7 @@ export default function Hero({ signedIn = false }) {
                   </svg>
                 </a>
                 <a
-                  href="#usecases"
+                  href="/docs"
                   className="inline-flex items-center justify-center rounded-full border border-line-strong bg-surface px-6 py-3 text-sm font-medium text-ink transition-colors hover:border-ink"
                 >
                   See how it works
