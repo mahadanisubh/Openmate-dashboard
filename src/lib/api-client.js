@@ -1,4 +1,4 @@
-const DEFAULT_API_BASE = 'https://api.openmate.bond';
+const DEFAULT_API_BASE = 'http://localhost:8080';
 
 export function apiBase() {
   return (process.env.OPENMATE_API_BASE ?? DEFAULT_API_BASE).replace(/\/+$/, '');
