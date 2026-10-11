@@ -6,9 +6,7 @@ import { useState } from 'react';
 import { registerTenant } from '../../actions/register.js';
 import CopyButton from './copy-button.jsx';
 
-// The Create Assistant flow is client-owned because the returned key must be revealed once, in
-// place, before the visitor can continue to sign-in. A server redirect would either lose the key or
-// have to persist it before the user copies it.
+// Client-owned because the returned key must be revealed once, in place; a server redirect would lose it or persist it before the user copies it.
 export default function CreateAssistantForm({ googleEnabled = false }) {
   const [created, setCreated] = useState(null);
   const [error, setError] = useState(null);

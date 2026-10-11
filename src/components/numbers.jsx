@@ -12,8 +12,7 @@ const STATS = [
   { prefix: '~', value: 2.3, decimals: 1, suffix: ' KB', label: 'per vector', color: 'text-accent' },
 ];
 
-// The export animated these with motion's `animate()`; this is the rAF equivalent, which carries no
-// dependency. Under prefers-reduced-motion the final value renders immediately.
+// The rAF equivalent of the export's motion `animate()` — no dependency; under reduced motion the final value renders immediately.
 function CountUp({ prefix, value, decimals, suffix, className }) {
   const ref = useRef(null);
   const inView = useInViewOnce(ref);

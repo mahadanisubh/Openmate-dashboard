@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 
-// Starts the Google OAuth flow. When the deployment has no client id the button is disabled with an
-// honest note rather than redirecting into a dead end.
+// When the deployment has no client id the button is disabled with an honest note rather than redirecting into a dead end.
 export default function GoogleButton({ enabled }) {
   const [busy, setBusy] = useState(false);
 

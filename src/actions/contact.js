@@ -2,8 +2,7 @@
 
 import { apiPost } from '../lib/api-client.js';
 
-// T-022: the public contact form posts to the API, which stores the message. A missing mail provider
-// cannot lose a submission because nothing here depends on one.
+// T-022: the contact form posts to the API, which stores the message — a missing mail provider cannot lose a submission.
 export async function sendContactMessage(formData) {
   const payload = {
     kind: String(formData.get('kind') ?? '').trim(),

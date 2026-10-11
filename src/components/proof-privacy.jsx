@@ -54,8 +54,7 @@ export default function ProofPrivacy() {
                 <span className="text-xs text-white/40">live</span>
               </div>
 
-              {/* The field is the diagram: encrypted documents as idle dots, the query retrieving
-               * its neighbours. The flow below names what is happening. */}
+              {/* The field is the diagram: encrypted documents as idle dots, the query retrieving its neighbours. */}
               <div className="relative mt-6 h-56">
                 <VectorField
                   className="absolute inset-0 h-full w-full"

@@ -4,8 +4,7 @@ import { useState } from 'react';
 
 import { sendContactMessage } from '../actions/contact.js';
 
-// The public contact form. One form, one choice of kind — a Query or a Suggestion — so a visitor does
-// not have to pick a department they do not know exists.
+// One choice of kind — Query or Suggestion — so a visitor need not pick a department they do not know exists.
 const KINDS = [
   { value: 'query', label: 'Query', hint: 'A question about OpenMate' },
   { value: 'suggestion', label: 'Suggestion', hint: 'An idea or improvement' },
@@ -52,7 +51,6 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-5 rounded-2xl border border-line bg-surface p-7">
-      {/* The one field that classifies the message: Query or Suggestion. */}
       <fieldset className="flex flex-col gap-2">
         <legend className="text-sm font-medium">This is a</legend>
         <div className="grid grid-cols-2 gap-2">

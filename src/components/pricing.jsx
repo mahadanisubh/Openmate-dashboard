@@ -1,9 +1,7 @@
 import Reveal from './reveal.jsx';
 import ScrollWeight from './scroll-weight.jsx';
 
-// Three tiers, compared on what the platform actually unlocks. The list is the entitlement surface,
-// not a scenario wish-list: origins, documents, appearance, branding, webhooks, and headroom. Each
-// row is answered for every tier so a business can see exactly where the line is.
+// Three tiers compared on the entitlement surface — origins, documents, appearance, branding, webhooks, headroom — answered for every tier.
 const TIERS = [
   {
     name: 'Cloud Free',
@@ -37,8 +35,7 @@ const TIERS = [
   },
 ];
 
-// Rows are the differentiators, in the order a buyer cares about them. `values` is one answer per
-// tier, so the comparison below can render as a table on desktop and per-card on mobile.
+// Rows are the differentiators in buyer order; one answer per tier so the comparison renders as a table on desktop and per-card on mobile.
 const FEATURES = [
   { label: 'Website origins', free: '1 domain', pro: 'Up to 10', agency: 'Up to 25', icon: 'globe' },
   { label: 'Knowledge documents', free: '1 document', pro: 'Up to 10', agency: 'Up to 50', icon: 'doc' },
@@ -150,13 +147,11 @@ export default function Pricing() {
         ))}
       </div>
 
-      {/* The differentiators, compared across the three tiers. */}
       <Reveal delay={0.08}>
         <h2 className="mt-20 font-display text-2xl font-semibold tracking-tight">What each plan includes</h2>
         <p className="mt-2 text-sm text-muted">Every feature that changes between tiers, side by side.</p>
       </Reveal>
 
-      {/* Desktop: a real comparison table. */}
       <Reveal delay={0.1}>
         <div className="mt-8 hidden overflow-hidden rounded-2xl border border-line bg-surface lg:block">
           <table className="w-full text-sm">
@@ -184,7 +179,7 @@ export default function Pricing() {
           </table>
         </div>
 
-        {/* Mobile: the same rows, grouped per tier so nothing is cut off. */}
+        {/* Mobile: the same rows grouped per tier so the table does not overflow. */}
         <div className="mt-8 flex flex-col gap-6 lg:hidden">
           {FEATURES.map((f) => (
             <div key={f.label} className="rounded-2xl border border-line bg-surface p-5">

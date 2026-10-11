@@ -23,8 +23,7 @@ export async function signIn(formData) {
   redirect('/dashboard');
 }
 
-// Email/password sign-in (T-021): the API verifies against the stored scrypt hash and returns a
-// session token, which the dashboard stores in the same cookie the API already accepts.
+// Email/password sign-in (T-021): the API verifies the scrypt hash and returns a token stored in the cookie the API already accepts.
 export async function signInWithPassword(formData) {
   const email = String(formData.get('email') ?? '').trim();
   const password = String(formData.get('password') ?? '');

@@ -2,10 +2,7 @@
 
 import CausticField from './caustic-field.jsx';
 
-// The marketing ambience: a green-tinted ground, three drifting fog banks, and the caustic light
-// field as a translucent emerald film. It is fixed behind the page (`-z-10`) and pointer-inert, so it
-// never intercepts a click or affects layout. The field itself is `CausticField`, shared with the
-// hero; the fog is CSS transform/opacity only, so it composites without reflow (see globals.css).
+// The marketing ambience: fixed behind the page (`-z-10`), pointer-inert, and transform/opacity only so it composites without reflow.
 export default function AmbientBackdrop() {
   return (
     <div
@@ -16,8 +13,7 @@ export default function AmbientBackdrop() {
       }}
       aria-hidden="true"
     >
-      {/* Three fog banks, each wrapped in a scroll-parallax layer and drifting on its own period,
-       * so the overlap separates in depth as the page moves and never lands on a beat. */}
+      {/* Three fog banks on their own periods so the overlap separates in depth and never lands on a beat. */}
       <div className="parallax-fog-a absolute -left-[15%] -top-[20%] h-[70vh] w-[70vw]">
         <div className="animate-fog-a h-full w-full rounded-full bg-[radial-gradient(circle,rgba(13,148,136,0.38),transparent_68%)] blur-3xl" />
       </div>
@@ -28,7 +24,7 @@ export default function AmbientBackdrop() {
         <div className="animate-fog-c h-full w-full rounded-full bg-[radial-gradient(circle,rgba(13,148,136,0.3),transparent_70%)] blur-3xl" />
       </div>
 
-      {/* The caustic film: a continuous green veil with brighter filaments riding on top. */}
+      {/* The caustic film: a continuous veil with brighter filaments riding on top. */}
       <CausticField
         className="absolute inset-0 h-full w-full"
         filmBase={0.07}

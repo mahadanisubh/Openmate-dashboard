@@ -2,17 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 
-// A single caustic light field — the shimmering bands refracted sunlight throws through water onto a
-// pool floor. It is the shared water texture: the page backdrop renders it as a translucent emerald
-// film, the hero renders it screen-blended as pale light over the photograph.
-//
-// Cost discipline (each instance can run full-viewport for the whole scroll of the page):
-//   - the field is computed at low resolution and upscaled; caustics are soft, so the smoothing hides
-//     the scale-up and the buffer stays bounded regardless of viewport size
-//   - one shared rAF per instance, throttled to `fps`; the field reads as flowing well below 60
-//   - the per-row sine/cosine time terms are hoisted out of the pixel loop, so the hot loop only
-//     does the iteration
-//   - the loop pauses off-screen and on a hidden tab, and freezes one frame under reduced motion
+// A caustic light field — refracted sunlight shimmering on a pool floor; the page's shared water texture.
+// Cost discipline (full-viewport): computed at low resolution and upscaled, one shared rAF at `fps`, pauses off-screen.
 export default function CausticField({
   resolution = 240,
   fps = 30,
@@ -55,8 +46,7 @@ export default function CausticField({
     let baseY = null;
     let bwidth = 0;
     let bheight = 0;
-    // The sine/cosine argument per iteration depends only on time and the iteration index, not the
-    // pixel, so it is computed once per frame rather than once per pixel.
+    // Time-and-iteration terms are pixel-independent, so computed once per frame rather than per pixel.
     const tt = new Float32Array(ITER);
 
     const build = () => {

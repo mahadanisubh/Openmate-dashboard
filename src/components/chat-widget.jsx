@@ -2,9 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-// The one interactive product island: a faithful mock of the OpenMate widget that plays a scripted
-// conversation with restrained streaming. It is driven by a `script` of turns:
-// { from: 'visitor' | 'openmate', text }.
+// A faithful mock of the OpenMate widget playing a scripted conversation; `script` is a list of { from: 'visitor' | 'openmate', text }.
 export default function ChatWidget({ script, title = 'OpenMate', subtitle = 'Assistant', compact = false, loop = true }) {
   const reduce = usePrefersReducedMotion();
   const rootRef = useRef(null);
@@ -68,7 +66,6 @@ export default function ChatWidget({ script, title = 'OpenMate', subtitle = 'Ass
           continue;
         }
 
-        // openmate: show a brief typing indicator, then stream the text
         await wait(550);
         if (cancelled) return;
         setTyping(true);
@@ -99,11 +96,10 @@ export default function ChatWidget({ script, title = 'OpenMate', subtitle = 'Ass
       cancelled = true;
       timers.forEach(clearTimeout);
     };
-    // scriptKey carries the script identity; the linter accepts the object reference
+    // scriptKey carries the script identity; the object reference itself is unstable.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [started, reduce, scriptKey, loop]);
 
-  // Keep the newest message in view within the panel.
   useEffect(() => {
     const el = scrollRef.current;
     if (el) el.scrollTop = el.scrollHeight;
@@ -118,7 +114,6 @@ export default function ChatWidget({ script, title = 'OpenMate', subtitle = 'Ass
       role="group"
       aria-label="OpenMate assistant preview"
     >
-      {/* header */}
       <div className="flex items-center gap-3 border-b border-line bg-ink-panel px-4 py-3">
         <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-[15px] font-semibold text-white">
           O
@@ -135,7 +130,6 @@ export default function ChatWidget({ script, title = 'OpenMate', subtitle = 'Ass
         </div>
       </div>
 
-      {/* messages */}
       <div
         ref={scrollRef}
         className={`flex flex-col gap-3 overflow-y-auto bg-paper px-4 py-4 ${compact ? 'h-56' : 'h-80 sm:h-[22rem]'}`}

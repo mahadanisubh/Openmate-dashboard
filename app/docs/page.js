@@ -172,7 +172,6 @@ export default function DocsPage() {
           where it says <code className="rounded bg-surface px-1.5 py-0.5 font-mono text-xs ring-1 ring-line">YOUR_BOT_ID</code>.
         </p>
 
-        {/* Before the platform guides: the four steps in plain language. */}
         <h2 className="mt-16 font-display text-2xl font-semibold tracking-tight">In four steps</h2>
         <ol className="mt-6 grid gap-4 sm:grid-cols-2">
           {STEPS.map((s) => (
@@ -209,7 +208,6 @@ export default function DocsPage() {
           ))}
         </div>
 
-        {/* The two things that actually stop an install from working. */}
         <h2 className="mt-16 font-display text-2xl font-semibold tracking-tight">Troubleshooting</h2>
         <dl className="mt-6 flex flex-col gap-5">
           <div className="rounded-2xl border border-line bg-surface p-5">

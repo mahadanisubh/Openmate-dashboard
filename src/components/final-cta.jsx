@@ -4,8 +4,7 @@ import ScrollWeight from './scroll-weight.jsx';
 export default function FinalCta() {
   return (
     <section id="cta" className="relative overflow-hidden border-t border-line bg-ink-panel">
-      {/* Token-based wash replacing the export's hardcoded orange gradient (the brief forbids the
-       * generic AI gradient); the warm accents keep the section from sitting flat. */}
+      {/* Token-based wash replacing the export's hardcoded orange gradient (the brief forbids the generic AI gradient). */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute -left-20 top-0 h-72 w-72 rounded-full bg-accent/25 blur-3xl animate-blob" />
         <div

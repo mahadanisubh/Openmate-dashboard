@@ -5,8 +5,7 @@ import { useEffect, useState } from 'react';
 
 import { signOut } from '../../actions/auth.js';
 
-// Appearance editing is a paid entitlement (T-018); a free tenant must not see a surface it cannot
-// save. The flag mirrors the API gate so the nav and the API agree.
+// Appearance editing is a paid entitlement (T-018); the flag mirrors the API gate so nav and API agree.
 const NAV = [
   { href: '/dashboard', label: 'Overview', icon: 'grid' },
   { href: '/dashboard/documents', label: 'Documents', icon: 'doc' },
@@ -36,15 +35,13 @@ function Icon({ name }) {
 }
 
 export default function Sidebar({ active, tier }) {
-  // Desktop collapse (persisted) and the mobile drawer are separate states on purpose: the drawer
-  // must open and close independently of the collapsed rail, and the reopen control has to live
-  // outside the drawer — otherwise a closed mobile drawer hides the only button that could reopen it.
+  // Collapse and the mobile drawer are separate states on purpose: the reopen control must live
+  // outside the drawer, or a closed drawer hides the only button that could reopen it.
   const [open, setOpen] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
   const items = NAV.filter((item) => !item.paid || tier !== 'free');
 
-  // Read the stored preference after mount so the server-rendered markup (expanded) and the first
-  // client paint agree; otherwise a collapsed user flashes an expanded sidebar.
+  // Read the stored preference after mount so the server markup and the first client paint agree.
   useEffect(() => {
     try {
       if (localStorage.getItem(STORAGE_KEY) === 'closed') setOpen(false);
@@ -78,13 +75,11 @@ export default function Sidebar({ active, tier }) {
 
   return (
     <>
-      {/* No-JS fallback: force the drawer into place and retire the script-only controls, so the
-       * nav stays reachable when client JS never hydrates. */}
+      {/* No-JS fallback: force the drawer into place and retire the script-only controls so the nav stays reachable. */}
       <noscript>
         <style>{'.dashboard-drawer{transform:none !important}.dashboard-menu-button{display:none !important}'}</style>
       </noscript>
 
-      {/* Mobile drawer scrim. Only exists while the drawer is open. */}
       {mobileOpen ? (
         <button
           type="button"
@@ -94,7 +89,7 @@ export default function Sidebar({ active, tier }) {
         />
       ) : null}
 
-      {/* The reopen control. It sits outside the drawer so a closed drawer is never a dead end. */}
+      {/* The reopen control, outside the drawer so a closed drawer is never a dead end. */}
       {!mobileOpen ? (
         <button
           type="button"

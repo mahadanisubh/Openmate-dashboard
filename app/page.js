@@ -7,7 +7,7 @@ import Marquee from '../src/components/marquee.jsx';
 import UseCases from '../src/components/use-cases.jsx';
 import WhyOpenMate from '../src/components/why-openmate.jsx';
 import BeforeAfter from '../src/components/before-after.jsx';
-// Parked for the v1 launch. Re-enable together with the /privacy and /terms routes:
+// Parked for v1 — re-enable together with the /privacy and /terms routes:
 //   import ProofPrivacy from '../src/components/proof-privacy.jsx';
 //   import Numbers from '../src/components/numbers.jsx';
 //   import ForAgencies from '../src/components/for-agencies.jsx';
@@ -17,12 +17,9 @@ import { hasSession } from '../src/lib/session.js';
 
 export const dynamic = 'force-dynamic';
 
-// The marketing homepage. Server components by default; the only interactive
-// islands are the chat widget preview, the reveal wrapper, the count-up, and the
-// header's scroll state. Reads end to end with JavaScript disabled through pricing.
+// Server components by default; interactive islands are the chat preview, reveal, count-up, and header scroll state.
 export default async function Page() {
-  // A display hint only: a signed-in visitor sees "Go to dashboard" instead of the create CTA. The
-  // tenant is still verified by the API on every dashboard request.
+  // Display hint only; the API still verifies the tenant on every dashboard request.
   const signedIn = await hasSession();
   return (
     <div className="relative min-h-screen text-ink">

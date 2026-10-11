@@ -2,10 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-// The motion port. The export's version animated with `motion/react`; this is the dependency-free
-// equivalent: content is always in the DOM, an observer adds `is-visible`, and CSS does the rest.
-// `prefers-reduced-motion` is handled in globals.css by rendering the revealed state with no
-// transition, so this component does not need to read the media query itself.
+// The dependency-free equivalent of the motion export: content is always in the DOM, an observer adds `is-visible`, and CSS does the rest; reduced motion is handled in globals.css.
 export default function Reveal({ children, delay = 0, className = '', as = 'div' }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);

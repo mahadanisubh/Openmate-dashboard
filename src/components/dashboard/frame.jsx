@@ -3,9 +3,7 @@ import { redirect } from 'next/navigation';
 import Sidebar from './sidebar.jsx';
 import { getTenant } from '../../lib/session.js';
 
-// The sidebar is fixed on every breakpoint; the main column carries a matching left padding so the
-// two never overlap. The sidebar owns only its own open/closed state, so the server layout needs no
-// client state to stay aligned.
+// The main column carries matching left padding so the fixed sidebar never overlaps it; the sidebar owns its own state, so the layout needs no client state.
 export default async function DashboardFrame({ active, children }) {
   const tenant = await getTenant();
   if (!tenant) redirect('/dashboard/sign-in');

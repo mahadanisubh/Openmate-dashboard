@@ -2,8 +2,7 @@
 
 import { useFormStatus } from 'react-dom';
 
-// Every dashboard mutation is a server action inside a form, so one pending-aware button gives the
-// whole surface a loader without wiring each form to its own state.
+// Every dashboard mutation is a server action inside a form, so one pending-aware button gives the whole surface a loader.
 export default function SubmitButton({ children, pendingLabel, className = '' }) {
   const { pending } = useFormStatus();
 

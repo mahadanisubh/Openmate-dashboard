@@ -3,9 +3,7 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'motion/react';
 
-// NOHEMI ships nine weights; this makes the axis a motion idea rather than a static choice. The
-// heading gains weight as it crosses the viewport. Under reduced motion it renders as plain
-// markup at its rest weight, so nothing depends on the animation to be readable.
+// NOHEMI's nine weights made a motion idea: the heading gains weight across the viewport, rendering at its rest weight under reduced motion.
 export default function ScrollWeight({
   children,
   className = '',

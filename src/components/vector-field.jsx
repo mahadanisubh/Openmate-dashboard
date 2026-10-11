@@ -2,16 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 
-// The product's own mechanism, drawn: each dot is a document drifting in embedding space, the
-// bright node a query retrieving its nearest neighbours. Reduced motion renders the settled frame;
-// no canvas leaves the container inert and the page still reads.
-//
-// Cost discipline (this runs full-viewport on the hero beside a second instance lower down):
-//   - one shared rAF, throttled to `fps` (an ambient drift is indistinguishable at 30)
-//   - k-nearest by partial selection, not a full sort, and a Set for membership
-//   - the query halo is a pre-rendered sprite drawn with drawImage, never a per-frame gradient
-//   - colours are resolved and encoded once, not per frame
-//   - the loop pauses off-screen and on a hidden tab
+// Embedding-space retrieval drawn: dots are documents, the bright node a query; reduced motion renders the settled frame.
+// Cost discipline (full-viewport): one shared rAF at `fps`, partial k-selection, a pre-rendered halo sprite, pauses off-screen.
 export default function VectorField({
   density = 64,
   neighbors = 6,

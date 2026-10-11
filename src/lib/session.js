@@ -21,15 +21,13 @@ export async function setSession(apiKey) {
     httpOnly: true,
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',
-    // Path `/` so the marketing pages can read the cookie's presence to switch the nav CTA between
-    // "Create your assistant" and "Go to dashboard" without an API round trip.
+    // Path `/` so the marketing pages can read the cookie's presence to switch the nav CTA without an API round trip.
     path: '/',
     maxAge: MAX_AGE_SECONDS,
   });
 }
 
-// Presence only: no API call, so a server component (the home page) can branch the CTA cheaply. The
-// tenant is still verified by the API on every dashboard request; this is a display hint, not auth.
+// Presence only, so a server component can branch the CTA cheaply; the tenant is still verified by the API on every dashboard request — a display hint, not auth.
 export async function hasSession() {
   const jar = await cookies();
   return Boolean(jar.get(COOKIE_NAME)?.value);

@@ -3,8 +3,7 @@ import { NextResponse } from 'next/server';
 import { apiPost } from '../../../../../src/lib/api-client.js';
 import { setSession } from '../../../../../src/lib/session.js';
 
-// The Google authorization-code callback. Exchanges the code for tokens, forwards the id_token to the
-// API for independent verification, then stores the returned session token in the auth cookie.
+// Exchanges the code for tokens, forwards the id_token to the API for independent verification, then stores the returned token in the auth cookie.
 export const dynamic = 'force-dynamic';
 
 const GOOGLE_TOKEN = 'https://oauth2.googleapis.com/token';

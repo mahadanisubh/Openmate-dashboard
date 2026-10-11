@@ -2,9 +2,7 @@
 
 import { useState } from 'react';
 
-// A tiny, dependency-free highlighter. It is deliberately shallow — enough to make the code read as
-// code and, crucially, to set the widget's own <script> line apart from the surrounding boilerplate
-// so a reader's eye lands on the one line that matters.
+// A deliberately shallow, dependency-free highlighter — enough to set the widget's <script> line apart so the eye lands on the one line that matters.
 const TOKEN = /(\/\/[^\n]*|<!--[\s\S]*?-->)|('[^']*'|"[^"]*")|(\b(?:import|from|export|default|function|return|const|let|var|new|useEffect)\b)|(\b(?:html|head|body|div|script|main|app-root|template|p|h1)\b)/g;
 
 function tokenize(code) {
@@ -30,8 +28,7 @@ const COLOR = {
   plain: 'text-white/85',
 };
 
-// The widget embed line gets its own treatment: a tinted band with the accent, so "this is the tag
-// you paste" is obvious at a glance.
+// The embed line gets a tinted accent band so "this is the tag you paste" is obvious at a glance.
 function HighlightedLine({ line }) {
   const isEmbed = /data-bot-id|widget\.js/.test(line);
   const nodes = tokenize(line);

@@ -3,16 +3,13 @@
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
-// Destinations pending the real values — replace with the external docs URL and the contact
-// route/address. Kept as constants so there is exactly one place to change.
+// Placeholders pending the real docs URL and contact route; constants so there is one place to change.
 const DOCS_HREF = '/docs';
 const CONTACT_HREF = '/contact';
 // The community lives on Telegram; the link opens in a new tab so the marketing page is never lost.
 const COMMUNITY_HREF = 'https://t.me/openmatecommunity7';
 
-// `overlay` renders the nav inside the hero banner (absolute, light-on-image, aligned to the hero's
-// own padding) instead of as a separate sticky bar. Pages without a banner use the default.
-// `signedIn` is resolved on the server from the session cookie's presence and switches the CTA.
+// `overlay` renders the nav inside the hero banner rather than a sticky bar; `signedIn` is resolved server-side from the session cookie.
 export default function SiteHeader({ overlay = false, signedIn = false }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -44,8 +41,7 @@ export default function SiteHeader({ overlay = false, signedIn = false }) {
   const brandTone = overlay ? 'text-white' : 'text-ink';
   const linkTone = overlay ? 'text-white/85 hover:text-white' : 'text-muted hover:text-ink';
 
-  // The single primary action: a signed-in visitor returns to their dashboard, everyone else starts
-  // the Create Assistant flow.
+  // The single primary action: signed-in visitors return to their dashboard, everyone else starts Create Assistant.
   const cta = signedIn
     ? { href: '/dashboard', label: 'Go to dashboard' }
     : { href: '/create-assistant', label: 'Create your assistant' };
@@ -59,8 +55,7 @@ export default function SiteHeader({ overlay = false, signedIn = false }) {
         />
       )}
 
-      {/* A hairline of brand colour under the bar, so the navigation reads as part of the product
-       * rather than a plain strip. Present in both states, brightest at the centre. */}
+      {/* A hairline of brand colour so the nav reads as part of the product, not a plain strip. */}
       <div
         className={`pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(15,122,90,0.55),rgba(13,148,136,0.55),transparent)] ${overlay ? 'opacity-40' : 'opacity-100'}`}
         aria-hidden="true"

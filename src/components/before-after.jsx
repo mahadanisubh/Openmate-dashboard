@@ -1,8 +1,7 @@
 import Reveal from './reveal.jsx';
 import ScrollWeight from './scroll-weight.jsx';
 
-// The old path dead-ends and waits; the new one resolves. The two lists are the same shape on
-// purpose so the difference reads as friction removed, not as more steps added.
+// The two lists share a shape on purpose so the difference reads as friction removed, not more steps added.
 const BEFORE = [
   { label: 'Has a question', note: 'the visitor arrives with intent' },
   { label: 'Searches your website', note: 'hunting pages for an answer' },

@@ -2,8 +2,7 @@
 
 import { apiPost } from '../lib/api-client.js';
 
-// T-019: registration is a public call. The key is returned to the caller to reveal once; it is not
-// written to a cookie here, because the flow requires the user to copy it before signing in.
+// T-019: a public call. The key is returned to reveal once, not cookied here, because the flow requires the user to copy it before signing in.
 export async function registerTenant(formData) {
   const payload = {
     platformName: String(formData.get('platformName') ?? '').trim(),

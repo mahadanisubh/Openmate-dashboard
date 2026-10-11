@@ -1,6 +1,4 @@
-// Only links with a real target ship. The footer promised Docs, GitHub, Contact and the policy
-// routes before any of them existed — a link that silently scrolls to the top reads as unfinished.
-// Policy routes are re-added here the moment /privacy and /terms are built.
+// Only links with a real target ship — one that silently scrolls to the top reads as unfinished. Policy routes return when /privacy and /terms are built.
 const COLUMNS = [
   {
     title: 'Product',

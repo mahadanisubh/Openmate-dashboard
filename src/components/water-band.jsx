@@ -1,7 +1,4 @@
-// The seam where the hero's clean paper meets the first content section. Rather than a flat rule,
-// a green pigment plume blooms and seeps across it — the assistant's colour entering the paper, the
-// same "ink in water" idea the ambience carries. Decorative only; the sections on both sides keep
-// their own backgrounds, so this is a visual join, not a wrapper.
+// The seam where the hero's paper meets the first content section: a green pigment plume, decorative only — a visual join, not a wrapper.
 export default function WaterBand() {
   return (
     <div className="relative h-px w-full" aria-hidden="true">
@@ -12,8 +9,7 @@ export default function WaterBand() {
         <div className="animate-plume absolute right-[10%] top-1/2 h-32 w-64 -translate-y-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(13,148,136,0.4),transparent_70%)] blur-2xl" style={{ animationDelay: '6s' }} />
       </div>
 
-      {/* The hairline itself, brightest at the centre, so the sections read as joined even if the
-       * plumes are reduced away. */}
+      {/* The hairline itself, so the sections read as joined even if the plumes are reduced away. */}
       <div className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(15,122,90,0.5),rgba(13,148,136,0.5),transparent)]" />
     </div>
   );

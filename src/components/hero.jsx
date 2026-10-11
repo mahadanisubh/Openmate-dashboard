@@ -73,14 +73,11 @@ export default function Hero({ signedIn = false }) {
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
 
-  // The headline gains weight as it leaves the viewport — NOHEMI's nine-weight axis as motion. No
-  // vertical lift here: the text is registered to the banner and must not slide off it.
+  // The headline gains weight as it leaves the viewport; no vertical lift — the text is registered to the banner.
   const weight = useTransform(scrollYProgress, [0, 1], [500, 900]);
   const fade = useTransform(scrollYProgress, [0, 0.8], [1, 0.35]);
 
-  // Depth on pointer move: the image and the caustic light drift a few pixels against the cursor, so
-  // the banner reads as a volume you are looking into. Desktop only — a touch device never fires a
-  // pointer, and reduced motion leaves both at rest.
+  // Pointer parallax for depth; desktop only — touch never fires a pointer and reduced motion leaves both at rest.
   const px = useSpring(useMotionValue(0), { stiffness: 60, damping: 20, mass: 0.6 });
   const py = useSpring(useMotionValue(0), { stiffness: 60, damping: 20, mass: 0.6 });
   const imgX = useTransform(px, [-1, 1], [-14, 14]);
@@ -101,8 +98,7 @@ export default function Hero({ signedIn = false }) {
 
   return (
     <section id="top" ref={ref} className="relative isolate overflow-hidden">
-      {/* The banner fills the whole viewport; the nav now overlays its top rather than sitting in a
-       * bar above it. object-cover crops the image's top and bottom equally. */}
+      {/* The banner fills the viewport; the nav overlays its top rather than sitting in a bar above it. */}
       <div
         className="relative h-svh min-h-[560px] w-full overflow-hidden bg-ink-panel"
         onPointerMove={onPointer}
@@ -125,15 +121,13 @@ export default function Hero({ signedIn = false }) {
           </picture>
         </motion.div>
 
-        {/* An emerald grade: deepens the shadows toward the brand and warms the highlights, so the
-         * photograph reads as one image with the page rather than a pasted-in picture. */}
+        {/* Emerald grade so the photograph reads as one image with the page, not a pasted-in picture. */}
         <div
           className="pointer-events-none absolute inset-0 bg-[linear-gradient(130deg,rgba(10,52,40,0.32)_0%,rgba(16,60,46,0.12)_46%,rgba(15,122,90,0.14)_100%)] mix-blend-multiply"
           aria-hidden="true"
         />
 
-        {/* The caustic light field, drifting opposite the image: water light playing over the scene,
-         * the same shimmer as the backdrop so the hero belongs to the page. */}
+        {/* Caustic light drifting opposite the image — the backdrop's shimmer, so the hero belongs to the page. */}
         <motion.div className="pointer-events-none absolute inset-0" aria-hidden="true" style={reduce ? undefined : { x: causticX, y: causticY }}>
           {/* Scaled past the viewport so the counter-drift never exposes an edge. */}
           <div className="absolute -inset-[8%]">
@@ -141,24 +135,20 @@ export default function Hero({ signedIn = false }) {
           </div>
         </motion.div>
 
-        {/* Light passing over the banner — a wide skewed band, brightest at its centre and fading to
-         * nothing at both edges, so it never reads as a panel sliding across the image. */}
+        {/* A light band over the banner, fading to nothing at both edges so it never reads as a panel sliding. */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
           <div className="animate-hero-sweep absolute inset-y-[-20%] left-0 w-1/3 bg-[linear-gradient(90deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.14)_50%,rgba(255,255,255,0)_100%)]" />
         </div>
 
         <div className="absolute inset-0 flex items-start">
-          {/* The scrim supports the text zone and releases before the image's right half, so the
-           * banner reads as the asset it is rather than a dark panel. */}
+          {/* The scrim releases before the image's right half so the banner reads as an asset, not a dark panel. */}
           <div
             className="pointer-events-none absolute inset-0 bg-[linear-gradient(100deg,rgba(16,36,29,0.90)_0%,rgba(16,36,29,0.80)_42%,rgba(16,36,29,0.55)_68%,rgba(16,36,29,0)_92%)]"
             aria-hidden="true"
           />
-          {/* Top padding includes the ~4rem the nav occupies, so the headline holds the position it
-           * was tuned to now that the header is out of flow. */}
+          {/* Top padding accounts for the ~4rem nav now that the header is out of flow. */}
           <div className="relative w-full px-6 pt-30 sm:px-10 sm:pt-36 lg:px-16 lg:pt-42 xl:pt-46">
-            {/* The supporting statement leads, set light and small so the headline below carries the
-             * weight — the two read as one lockup, not a badge above a title. */}
+            {/* The supporting statement is set light and small so the headline carries the weight. */}
             <Reveal delay={0.02}>
               <p className="max-w-2xl font-display text-[clamp(1rem,1.5vw,1.35rem)] font-light leading-snug tracking-[0.01em] text-white/75 [text-shadow:0_2px_10px_rgba(0,0,0,0.35)]">
                 Turn your business knowledge into a{' '}
@@ -177,8 +167,7 @@ export default function Hero({ signedIn = false }) {
               </span>
             </motion.h1>
 
-            {/* The banner's call to action sits directly under the headline, where the eye lands
-             * first — the page's single strongest ask, not buried below the fold. */}
+            {/* The banner's CTA sits directly under the headline — the page's single strongest ask. */}
             <Reveal delay={0.1}>
               <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:items-center lg:mt-12">
                 <a
@@ -274,9 +263,7 @@ export default function Hero({ signedIn = false }) {
               </dl>
             </Reveal>
 
-            {/* The whole install, shown rather than described — the proof behind "1 script tag".
-             * The bot id is a placeholder by necessity: there is no public embed host to cite, and a
-             * fabricated one would be a claim the product cannot back (02 §6). */}
+            {/* The whole install shown rather than described. The bot id is a placeholder: a fabricated one would be a claim the product cannot back (02 §6). */}
             <Reveal delay={0.22}>
               <div className="mt-10 max-w-xl overflow-hidden rounded-2xl border border-line bg-ink-panel">
                 <div className="flex items-center justify-between gap-3 border-b border-white/10 px-5 py-3">
@@ -308,7 +295,6 @@ export default function Hero({ signedIn = false }) {
           </Reveal>
         </div>
 
-        {/* The promise, as three beats — the section's closing statement. */}
         <Reveal delay={0.1}>
           <div className="mt-16 grid gap-6 border-t border-line pt-10 sm:grid-cols-3 sm:gap-0">
             <p className="font-display text-xl leading-tight tracking-tight sm:pr-8 sm:text-2xl">

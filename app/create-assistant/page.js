@@ -6,8 +6,7 @@ import { getTenant } from '../../src/lib/session.js';
 
 export const dynamic = 'force-dynamic';
 
-// The public entry point the marketing nav links to. `/dashboard/create-assistant` remains for a
-// signed-out visitor who lands inside the dashboard; both render the same form.
+// The public entry point the marketing nav links to; `/dashboard/create-assistant` is the same form for a visitor already inside the dashboard.
 export default async function CreateAssistantPage() {
   const tenant = await getTenant();
   if (tenant) redirect('/dashboard');
