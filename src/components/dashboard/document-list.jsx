@@ -26,7 +26,6 @@ export default function DocumentList({ documents }) {
           <tr>
             <th scope="col" className="px-4 py-3 font-medium">Document</th>
             <th scope="col" className="px-4 py-3 font-medium">Pages</th>
-            <th scope="col" className="px-4 py-3 font-medium">Chunks</th>
             <th scope="col" className="px-4 py-3 font-medium">Status</th>
           </tr>
         </thead>
@@ -35,7 +34,6 @@ export default function DocumentList({ documents }) {
             <tr key={doc.docId} className="border-t border-line">
               <td className="px-4 py-3 font-mono text-xs">{doc.docId}</td>
               <td className="px-4 py-3 text-muted">{doc.pages ?? '—'}</td>
-              <td className="px-4 py-3 text-muted">{doc.chunkCount ?? '—'}</td>
               <td className={`px-4 py-3 ${STATUS_TONE[doc.status] ?? 'text-muted'}`}>
                 {STATUS_LABEL[doc.status] ?? doc.status}
               </td>
