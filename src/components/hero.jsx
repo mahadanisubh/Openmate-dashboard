@@ -6,6 +6,7 @@ import CausticField from './caustic-field.jsx';
 import Reveal from './reveal.jsx';
 import ScrollWeight from './scroll-weight.jsx';
 import ChatWidget from './chat-widget.jsx';
+import VideoModal from './video-modal.jsx';
 
 const INSTALL_SNIPPET = `<script
   src="/widget.js"
@@ -185,16 +186,7 @@ export default function Hero({ signedIn = false }) {
                     <path d="M4 10h11M11 5l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </a>
-                <a
-                  href="/docs"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/20"
-                >
-                  <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <circle cx="10" cy="10" r="7" />
-                    <path d="M8 7.5l5 2.5-5 2.5z" fill="currentColor" stroke="none" />
-                  </svg>
-                  See how it works
-                </a>
+                <VideoModal />
               </div>
             </Reveal>
 
